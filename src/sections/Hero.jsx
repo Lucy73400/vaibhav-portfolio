@@ -23,7 +23,7 @@ export default function Hero() {
           <span className="discipline-tag">Visual Creator</span>
         </div>
         <div className="hero-manifesto-wrap">
-          <p className="hero-manifesto-text">"hello guys"</p>
+          <p className="hero-manifesto-text">"I create things that make people feel something."</p>
         </div>
       </div>
       <div className="hero-scroll" aria-hidden="true">
