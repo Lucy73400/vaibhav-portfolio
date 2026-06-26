@@ -18,7 +18,7 @@ export default function Collaborate() {
           <div className="collab-left">
             <div className="collab-label">[ INQUIRIES ]</div>
             <h2 id="collaborate-heading" className="collab-h">
-              LET'S BUILD<br />SOMETHING<br />UNFORGETTABLE.
+              LET'S ABSORB<br />EACH OTHER'S<br />IDEAS, ENDURE<br />THE CHAOS TOGETHER.
             </h2>
             <div className="collab-tag">
               AVAILABLE FOR GLOBAL COMMISSIONS<br />DIRECTORIAL WORK &amp; CONSULTING

@@ -42,8 +42,8 @@ export default function Navbar() {
       </Link>
       <div className="nav-links">
         <a href={isHome ? '#hero' : '/'} className={isHome && activeSection === 'hero' ? 'active' : ''}>Home</a>
-        <a href={isHome ? '#portfolio' : '/#portfolio'} className={isHome && activeSection === 'portfolio' ? 'active' : ''}>Work</a>
         <a href={isHome ? '#identity' : '/#identity'} className={isHome && activeSection === 'identity' ? 'active' : ''}>About</a>
+        <a href={isHome ? '#portfolio' : '/#portfolio'} className={isHome && activeSection === 'portfolio' ? 'active' : ''}>Work</a>
         <Link to="/journal" className={isJournal ? 'active' : ''}>Journal</Link>
         <a href={isHome ? '#collaborate' : '/#collaborate'} className={isHome && activeSection === 'collaborate' ? 'active' : ''}>Contact</a>
       </div>

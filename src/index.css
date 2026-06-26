@@ -225,6 +225,7 @@ nav.scrolled {
 .nav-links {
   display: flex;
   gap: 2.8rem;
+  align-items: center;
 }
 
 .nav-links a {
@@ -235,12 +236,15 @@ nav.scrolled {
   text-decoration: none;
   transition: color 0.3s;
   position: relative;
+  /* Fixed line-height prevents any vertical shift on state changes */
+  line-height: 1;
+  padding-bottom: 4px; /* reserve space for the underline, no layout shift */
 }
 
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 1px;
@@ -325,17 +329,45 @@ nav.scrolled {
 }
 
 .hero-manifesto-text {
-  font-family: var(--font-serif);
-  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.65rem, 1.2vw, 0.82rem);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.4;
-  font-style: italic;
-  max-width: 720px;
+  color: rgba(255, 255, 255, 0.52);
+  line-height: 2.1;
+  letter-spacing: 0.06em;
+  max-width: 620px;
   opacity: 0;
   transform: translateY(35px);
   transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: 0.6s;
+}
+
+.hero-quote-wrap {
+  margin-top: 2.8rem;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.85s;
+}
+
+.hero-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.5;
+  margin-bottom: 0.55rem;
+}
+
+.hero-quote-attr {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  color: var(--accent-beige);
+  text-transform: uppercase;
+  font-style: normal;
+  display: block;
 }
 
 .hero-content.animate-in .hero-name-label {
@@ -349,7 +381,12 @@ nav.scrolled {
 }
 
 .hero-content.animate-in .hero-manifesto-text {
-  opacity: 0.95;
+  opacity: 0.85;
+  transform: translateY(0);
+}
+
+.hero-content.animate-in .hero-quote-wrap {
+  opacity: 1;
   transform: translateY(0);
 }
 
@@ -859,55 +896,65 @@ section {
   }
 }
 
-/* --- CREATIVE THOUGHTS --- */
+/* --- CREATIVE THOUGHTS (CINEMATIC) --- */
 #creative-thoughts {
   position: relative;
-  min-height: 70vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-dark);
-  padding: 12vh 8vw;
+  padding: 14vh 8vw;
   text-align: center;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
 }
 
+/* Film grain overlay inside section */
+.thoughts-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .thoughts-content {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .thought-symbol {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: var(--accent-beige);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   display: inline-block;
-  animation: thoughtsPulse 2.5s infinite ease-in-out;
-}
-
-@keyframes thoughtsPulse {
-  0%, 100% { opacity: 0.35; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.1); }
+  will-change: opacity, transform;
 }
 
 .thought-quote {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+  font-size: clamp(1.9rem, 4.8vw, 3.5rem);
   font-weight: 700;
   font-style: italic;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 2.8rem;
+  margin-bottom: 3rem;
+  will-change: opacity, filter;
 }
 
 .thought-sub {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.3em;
-  color: var(--accent-muted);
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  color: var(--accent-beige);
   text-transform: uppercase;
+  opacity: 0.7;
 }
 
 /* --- FOOTER VISUAL --- */
@@ -941,12 +988,14 @@ section {
   width: 52%;
   max-width: 650px;
   height: auto;
-  opacity: 0.45;
-  transition: opacity 0.8s;
+  opacity: 0.72;
+  filter: brightness(1.15) contrast(1.05);
+  transition: opacity 0.8s ease, filter 0.8s ease;
 }
 
 #footer-visual:hover .fv-logo-img {
-  opacity: 0.85;
+  opacity: 1;
+  filter: brightness(1.35) contrast(1.1);
 }
 
 /* --- CONTACT / COLLABORATE --- */
