@@ -65,32 +65,7 @@ export default function Hero() {
           <span className="discipline-tag">Visual Creator</span>
         </motion.div>
 
-        {/* ── Manifesto ───────────────────────────────────────────────── */}
-        <motion.div
-          className="hero-manifesto-wrap"
-          variants={childVariants}
-          initial="hidden"
-          animate={visible ? 'visible' : 'hidden'}
-          custom={0.42}
-        >
-          <p className="hero-manifesto-text">
-        
-          </p>
-        </motion.div>
 
-        {/* ── Quote ───────────────────────────────────────────────────── */}
-        <motion.div
-          className="hero-quote-wrap"
-          variants={childVariants}
-          initial="hidden"
-          animate={visible ? 'visible' : 'hidden'}
-          custom={0.68}
-        >
-          <blockquote className="hero-quote">
-            "We're not copying life, we're making a comment on it."
-          </blockquote>
-          <cite className="hero-quote-attr">— Richard Williams</cite>
-        </motion.div>
       </div>
 
       <motion.div
