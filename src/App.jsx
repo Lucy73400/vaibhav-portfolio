@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LayoutGroup, motion } from 'framer-motion';
 import CustomCursor from './components/CustomCursor';
 import CinematicIntro from './components/CinematicIntro';
 import Navbar from './components/Navbar';
@@ -12,6 +13,8 @@ import Thoughts from './sections/Thoughts';
 import Collaborate from './sections/Collaborate';
 import Footer from './components/Footer';
 import JournalPage from './pages/Journal';
+
+const EASE = [0.16, 1, 0.3, 1];
 
 // ─── Home Page ────────────────────────────────────────────────────────────────
 function HomePage() {
@@ -38,6 +41,7 @@ function App() {
     document.body.classList.add('loaded');
   }, []);
 
+  // Set up scroll reveal + parallax once intro is done
   useEffect(() => {
     if (!introComplete) return;
 
@@ -69,19 +73,33 @@ function App() {
 
   return (
     <BrowserRouter>
-      <CustomCursor />
-      <div className="grain-overlay" aria-hidden="true"></div>
+      {/*
+        LayoutGroup lets the shared "vaibhav-name" layoutId animate
+        continuously from CinematicIntro → Hero, even across mount/unmount.
+      */}
+      <LayoutGroup>
+        <CustomCursor />
+        <div className="grain-overlay" aria-hidden="true" />
 
-      {!introComplete && <CinematicIntro onComplete={handleIntroComplete} />}
+        {/* Intro sits on top while running; unmounts when introComplete */}
+        {!introComplete && <CinematicIntro onComplete={handleIntroComplete} />}
 
-      <Navbar />
+        {/* Nav fades in after intro */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: introComplete ? 1 : 0 }}
+          transition={{ duration: 0.8, ease: EASE }}
+        >
+          <Navbar />
+        </motion.div>
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/journal" element={<JournalPage />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/journal" element={<JournalPage />} />
+        </Routes>
 
-      <Footer />
+        <Footer />
+      </LayoutGroup>
     </BrowserRouter>
   );
 }

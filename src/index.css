@@ -293,6 +293,7 @@ nav.scrolled {
   max-width: 1000px;
 }
 
+/* Framer Motion drives opacity + layoutId transform on this element */
 .hero-name-label {
   font-family: var(--font-serif);
   font-size: clamp(3rem, 11vw, 8rem);
@@ -300,92 +301,68 @@ nav.scrolled {
   line-height: 0.95;
   letter-spacing: -0.015em;
   color: var(--text-light);
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: 0.15s;
+  margin: 0 0 0 0;
+  will-change: transform, opacity;
 }
 
+/* Framer Motion drives opacity + y on these */
 .hero-disciplines {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
   font-family: var(--font-mono);
   font-size: clamp(0.55rem, 1.3vw, 0.72rem);
   font-weight: 700;
   color: var(--accent-beige);
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  margin: 2.2rem 0;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: 0.35s;
+  margin: 2.2rem 0 0;
 }
 
 .hero-manifesto-wrap {
-  overflow: hidden;
-  margin-top: 1.2rem;
+  margin-top: 2.4rem;
 }
 
 .hero-manifesto-text {
   font-family: var(--font-mono);
-  font-size: clamp(0.65rem, 1.2vw, 0.82rem);
+  font-size: clamp(0.62rem, 1.1vw, 0.78rem);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.52);
-  line-height: 2.1;
+  color: rgba(255, 255, 255, 0.48);
+  line-height: 2.2;
   letter-spacing: 0.06em;
-  max-width: 620px;
-  opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: 0.6s;
+  max-width: 580px;
 }
 
 .hero-quote-wrap {
-  margin-top: 2.8rem;
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: 0.85s;
+  margin-top: 2.6rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .hero-quote {
   font-family: var(--font-serif);
-  font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+  font-size: clamp(0.9rem, 1.7vw, 1.25rem);
   font-weight: 400;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.68);
-  line-height: 1.5;
-  margin-bottom: 0.55rem;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
 }
 
 .hero-quote-attr {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.28em;
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
   color: var(--accent-beige);
   text-transform: uppercase;
   font-style: normal;
   display: block;
 }
 
+/* Legacy CSS animate-in kept for safety; Framer Motion is primary driver */
 .hero-content.animate-in .hero-name-label {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-content.animate-in .hero-disciplines {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-content.animate-in .hero-manifesto-text {
-  opacity: 0.85;
-  transform: translateY(0);
-}
-
-.hero-content.animate-in .hero-quote-wrap {
   opacity: 1;
   transform: translateY(0);
 }
@@ -410,7 +387,7 @@ nav.scrolled {
 
 @keyframes scrollAnim {
   0%, 100% { opacity: 0.2; transform: scaleY(0.8); transform-origin: top; }
-  50% { opacity: 1; transform: scaleY(1.2); transform-origin: top; }
+  50%       { opacity: 1;   transform: scaleY(1.2); transform-origin: top; }
 }
 
 /* --- SECTION SYSTEM --- */
@@ -455,32 +432,69 @@ section {
   transform: translateY(0);
 }
 
-/* --- ATMOSPHERIC EXPLORATION --- */
+/* --- ATMOSPHERIC / MANIFESTO --- */
 #atmospheric {
-  min-height: 60vh;
+  min-height: 65vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 12vh 12vw;
+  padding: 14vh 12vw;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.atm-para {
-  font-size: clamp(0.72rem, 1.25vw, 0.95rem);
-  line-height: 2.2;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.08em;
-  max-width: 820px;
-  margin-bottom: 5rem;
+.atm-manifesto {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
-.atm-credit {
-  font-size: 0.55rem;
-  letter-spacing: 0.5em;
+.atm-manifesto-text {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.85;
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.01em;
+}
+
+.atm-divider {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-beige), transparent);
+  margin: 3rem auto;
+  opacity: 0.55;
+}
+
+.atm-quote-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.atm-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(0.88rem, 1.6vw, 1.1rem);
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.atm-quote-attr {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  color: var(--accent-beige);
   text-transform: uppercase;
-  color: var(--accent-muted);
+  font-style: normal;
+  opacity: 0.7;
 }
 
 /* --- VISUAL LOOP --- */

@@ -7,52 +7,59 @@ export default function Atmospheric() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('revealed');
         });
       },
       { threshold: 0.15 }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    if (containerRef.current) observer.observe(containerRef.current);
 
     const visualSec = document.getElementById('visual');
-    if (visualSec) {
-      observer.observe(visualSec);
-    }
+    if (visualSec) observer.observe(visualSec);
 
     return () => observer.disconnect();
   }, []);
 
   return (
     <>
-      <section id="atmospheric" className="reveal-up" ref={containerRef}>
-        <p className="atm-para">
-          A cinematic exploration of the intersection between physical dynamics and digital kinetics. We believe motion is the ultimate vector for emotional storytelling, where every micro-second is a designed relationship between space and form.
-        </p>
-        <p className="atm-credit">CREATOR & ANIMATOR</p>
+      {/* ── Personal Manifesto ─────────────────────────────────────────────── */}
+      <section id="atmospheric" className="reveal-up" ref={containerRef} aria-label="Creative manifesto">
+        <div className="atm-manifesto">
+          <p className="atm-manifesto-text">
+            I believe animation is more than movement.<br />
+            It's the art of giving life to ideas.<br />
+            Every project I create is a step toward building worlds,<br />
+            telling stories, and inspiring the next generation of creators.
+          </p>
+          <div className="atm-divider" aria-hidden="true" />
+          <div className="atm-quote-block">
+            <blockquote className="atm-quote">
+              "We're not copying life, we're making a comment on it."
+            </blockquote>
+            <cite className="atm-quote-attr">— Richard Williams</cite>
+          </div>
+        </div>
       </section>
 
-      <section id="visual" className="reveal-up">
-        <div className="vis-inner">
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
-          <div className="vis-col"></div>
+      {/* ── Visual reel strip ──────────────────────────────────────────────── */}
+      <section id="visual" className="reveal-up" aria-label="Visual reel">
+        <div className="vis-inner" aria-hidden="true">
+          <div className="vis-col" />
+          <div className="vis-col" />
+          <div className="vis-col" />
+          <div className="vis-col" />
+          <div className="vis-col" />
+          <div className="vis-col" />
+          <div className="vis-col" />
+          <div className="vis-col" />
         </div>
-        <div className="vis-overlay"></div>
-        <div className="vis-play">
-          <span>▶</span>
-        </div>
-        <div className="vis-ml">01:45:22</div>
-        <div className="vis-mr">RED 6K / 4K / 24fps / 10bit / 4:3 / 16:9 / 21:9</div>
+        <div className="vis-overlay" aria-hidden="true" />
+        <button className="vis-play" aria-label="Play reel">
+          <span aria-hidden="true">▶</span>
+        </button>
+        <div className="vis-ml" aria-hidden="true">01:45:22</div>
+        <div className="vis-mr" aria-hidden="true">RED 6K / 4K / 24fps / 10bit</div>
       </section>
     </>
   );
