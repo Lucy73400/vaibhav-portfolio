@@ -74,10 +74,7 @@ export default function Hero() {
           custom={0.42}
         >
           <p className="hero-manifesto-text">
-            I believe animation is more than movement.<br />
-            It's the art of giving life to ideas.<br />
-            Every project I create is a step toward building worlds,<br />
-            telling stories, and inspiring the next generation of creators.
+        
           </p>
         </motion.div>
 
