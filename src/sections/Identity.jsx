@@ -1,45 +1,47 @@
-import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+
+const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
+
+const fadeUpBlur = {
+  hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.6, ease: EASE_CINEMATIC },
+  },
+};
 
 export default function Identity() {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const lines = containerRef.current.querySelectorAll('.identity-line');
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: '-25% 0px -25% 0px',
-      threshold: 0.5
-    };
-
-    const lineObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        } else {
-          entry.target.classList.remove('active');
-        }
-      });
-    }, observerOptions);
-
-    lines.forEach(line => lineObserver.observe(line));
-
-    return () => lineObserver.disconnect();
-  }, []);
-
   return (
-    <section id="identity" ref={containerRef}>
-      <div className="identity-sticky">
-        <span className="sec-label">01 / IDENTITY</span>
-        <h2 className="sec-title">Creative Spectrum</h2>
-      </div>
-      <div className="identity-story">
-        <p className="identity-line" data-index="0">Some people write code.</p>
-        <p className="identity-line" data-index="1">Some people paint.</p>
-        <p className="identity-line" data-index="2">Some people sing.</p>
-        <p className="identity-line" data-index="3">I move between all of them.</p>
-        <p className="identity-line accent" data-index="4">I animate. I shoot. I edit. I visualize. I tell stories.</p>
+    <section id="identity" className="philosophy-section">
+      <div className="philosophy-container">
+
+        <motion.span
+          className="sec-label centered"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-10% 0px' }}
+          variants={fadeUpBlur}
+        >
+          01 / PHILOSOPHY
+        </motion.span>
+
+        <div className="philosophy-content">
+          <motion.p
+            className="philosophy-text"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-10% 0px' }}
+            variants={fadeUpBlur}
+          >
+            I believe animation is more than movement.
+            It's the art of giving life to ideas.
+            Every project I create is a step toward building worlds, telling stories,
+            and inspiring the next generation of creators.
+          </motion.p>
+        </div>
+
       </div>
     </section>
   );

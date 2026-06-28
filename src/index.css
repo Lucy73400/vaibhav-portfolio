@@ -13,6 +13,7 @@
   --accent-card-border: rgba(255, 255, 255, 0.06);
   --font-serif: 'Playfair Display', serif;
   --font-mono: 'Space Mono', monospace;
+  --font-sans: 'Inter Tight', 'Inter', system-ui, sans-serif;
   --scroll-y: 0px;
 }
 
@@ -321,6 +322,39 @@ nav.scrolled {
   margin: 2.2rem 0 0;
 }
 
+/* ── Hero quote (Richard Williams) — sits below disciplines ── */
+.hero-quote-block {
+  margin-top: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  /* Subtle separator above */
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-quote-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.52);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.hero-quote-author {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.32em;
+  color: var(--accent-beige);
+  text-transform: uppercase;
+  font-style: normal;
+  opacity: 0.65;
+}
+
 /* Legacy CSS animate-in kept for safety; Framer Motion is primary driver */
 .hero-content.animate-in .hero-name-label {
   opacity: 1;
@@ -465,54 +499,50 @@ section {
 .vis-ml { left: 4vw; }
 .vis-mr { right: 4vw; }
 
-/* --- CREATIVE IDENTITY (STORYTELLING) --- */
-#identity {
+/* --- CREATIVE PHILOSOPHY / MANIFESTO --- */
+#identity.philosophy-section {
   background: var(--bg-dark);
   padding: 16vh 8vw;
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 4rem;
-  align-items: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.identity-sticky {
-  position: sticky;
-  top: 15vh;
-}
-
-.identity-story {
+.philosophy-container {
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  align-items: center;
 }
 
-.identity-line {
-  font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+.sec-label.centered {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.philosophy-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.philosophy-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.88rem, 1.5vw, 1.1rem);
   font-weight: 400;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.15);
-  transition: color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 640px;
+  margin: 0 auto;
+  letter-spacing: 0.005em;
+  will-change: transform, opacity, filter;
 }
 
-.identity-line.active {
-  color: rgba(255, 255, 255, 0.92);
-}
 
-.identity-line.accent.active {
-  color: var(--accent-beige);
-}
-
-@media (max-width: 991px) {
-  #identity {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  .identity-sticky {
-    position: relative;
-    top: 0;
-  }
-}
 
 /* --- WHAT I CREATE (CATEGORIES) --- */
 #creations {

@@ -1,60 +1,45 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const EASE = [0.16, 1, 0.3, 1];
+const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
 
-// Staggered child variants — everything below the name
-const childVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: (delay) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1.4, delay, ease: EASE },
-  }),
-};
-
-export default function Hero() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    // Fire once body.loaded is set by CinematicIntro's onComplete
-    const check = () => {
-      if (document.body.classList.contains('loaded')) {
-        // 200ms grace — lets the overlay opacity-out settle first
-        setTimeout(() => setVisible(true), 200);
-      }
-    };
-    check(); // in case already set
-    const mo = new MutationObserver(check);
-    mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    return () => mo.disconnect();
-  }, []);
+export default function Hero({ introState }) {
+  const visible = introState !== 'logo-reveal';
 
   return (
     <section id="hero" aria-label="Hero introduction">
-      <div className="hero-bg" aria-hidden="true" />
+      {/* ── Background texture ── */}
+      <motion.div
+        className="hero-bg"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: visible ? 1 : 0 }}
+        transition={{ duration: 1.8, ease: EASE_CINEMATIC }}
+      />
 
       <div className="hero-content">
-        {/* ── Shared element: name morphs from intro position ─────────── */}
+        {/* ── Hero typography (VAIBHAV) ── */}
         <motion.h1
-          layoutId="vaibhav-name"
           className="hero-name-label"
-          /* The layoutId handles positioning; we only animate opacity in */
-          animate={{ opacity: visible ? 1 : 0 }}
-          transition={{ duration: 1.0, ease: EASE }}
-          style={{ willChange: 'transform, opacity' }}
+          initial={{ opacity: 0, filter: 'blur(15px)', y: 15 }}
+          animate={{
+            opacity: visible ? 1 : 0,
+            filter: visible ? 'blur(0px)' : 'blur(15px)',
+            y: visible ? 0 : 15,
+          }}
+          transition={{ duration: 1.6, delay: 0.8, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'transform, opacity, filter' }}
         >
           VAIBHAV
         </motion.h1>
 
-        {/* ── Disciplines ─────────────────────────────────────────────── */}
+        {/* ── Disciplines ── */}
         <motion.div
           className="hero-disciplines"
           aria-label="Creative disciplines"
-          variants={childVariants}
-          initial="hidden"
-          animate={visible ? 'visible' : 'hidden'}
-          custom={0.2}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
+          transition={{ duration: 1.4, delay: 1.1, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <span className="discipline-tag">Animator</span>
           <span className="discipline-separator" aria-hidden="true">•</span>
@@ -65,15 +50,32 @@ export default function Hero() {
           <span className="discipline-tag">Visual Creator</span>
         </motion.div>
 
-
+        {/* ── Quote (Supporting the identity) ── */}
+        <motion.blockquote
+          className="hero-quote-block"
+          initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
+          animate={{
+            opacity: visible ? 1 : 0,
+            y: visible ? 0 : 15,
+            filter: visible ? 'blur(0px)' : 'blur(5px)',
+          }}
+          transition={{ duration: 1.6, delay: 1.4, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'transform, opacity, filter' }}
+        >
+          <p className="hero-quote-text">
+            "We're not copying life, we're making a comment on it."
+          </p>
+          <cite className="hero-quote-author">— Richard Williams</cite>
+        </motion.blockquote>
       </div>
 
+      {/* ── Scroll indicator ── */}
       <motion.div
         className="hero-scroll"
         aria-hidden="true"
         initial={{ opacity: 0 }}
-        animate={{ opacity: visible ? 1 : 0 }}
-        transition={{ duration: 1.2, delay: 1.1, ease: EASE }}
+        animate={{ opacity: visible ? 0.6 : 0 }}
+        transition={{ duration: 1.2, delay: 1.8, ease: EASE_CINEMATIC }}
       >
         <div className="scroll-line" />
       </motion.div>

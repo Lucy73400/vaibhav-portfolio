@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-export default function Navbar() {
+const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
+const MotionLink = motion(Link);
+
+export default function Navbar({ introState }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
   const isHome = location.pathname === '/';
+
+  // If we are on sub-pages (e.g. Journal), don't delay navbar elements
+  const visible = !isHome || introState !== 'logo-reveal';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,14 +45,74 @@ export default function Navbar() {
   return (
     <nav id="mainnav" className={scrolled ? 'scrolled' : ''} role="navigation" aria-label="Main navigation">
       <Link to="/" className="nav-logo" aria-label="Vaibhav — Home">
-        <img src="https://i.ibb.co/hJwV1pph/MY-personal-logo.png" alt="Vaibhav Logo" className="nav-logo-img" />
+        {/* Navigation Logo resolves after nav link stagger starts */}
+        <motion.img
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: visible ? 0.9 : 0, scale: visible ? 1 : 0.92 }}
+          transition={{ duration: 1.2, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
+          src="https://i.ibb.co/hJwV1pph/MY-personal-logo.png"
+          alt="Vaibhav Logo"
+          className="nav-logo-img"
+          style={{ willChange: 'opacity, transform' }}
+        />
       </Link>
+      
       <div className="nav-links">
-        <a href={isHome ? '#hero' : '/'} className={isHome && activeSection === 'hero' ? 'active' : ''}>Home</a>
-        <a href={isHome ? '#identity' : '/#identity'} className={isHome && activeSection === 'identity' ? 'active' : ''}>About</a>
-        <a href={isHome ? '#portfolio' : '/#portfolio'} className={isHome && activeSection === 'portfolio' ? 'active' : ''}>Work</a>
-        <Link to="/journal" className={isJournal ? 'active' : ''}>Journal</Link>
-        <a href={isHome ? '#collaborate' : '/#collaborate'} className={isHome && activeSection === 'collaborate' ? 'active' : ''}>Contact</a>
+        {/* Staggered Navigation Links */}
+        <motion.a
+          href={isHome ? '#hero' : '/'}
+          className={isHome && activeSection === 'hero' ? 'active' : ''}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
+          transition={{ duration: 1.0, delay: isHome ? 0.3 : 0, ease: EASE_CINEMATIC }}
+          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+        >
+          Home
+        </motion.a>
+
+        <motion.a
+          href={isHome ? '#identity' : '/#identity'}
+          className={isHome && activeSection === 'identity' ? 'active' : ''}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
+          transition={{ duration: 1.0, delay: isHome ? 0.4 : 0, ease: EASE_CINEMATIC }}
+          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+        >
+          About
+        </motion.a>
+
+        <motion.a
+          href={isHome ? '#portfolio' : '/#portfolio'}
+          className={isHome && activeSection === 'portfolio' ? 'active' : ''}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
+          transition={{ duration: 1.0, delay: isHome ? 0.5 : 0, ease: EASE_CINEMATIC }}
+          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+        >
+          Work
+        </motion.a>
+
+        <MotionLink
+          to="/journal"
+          className={isJournal ? 'active' : ''}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
+          transition={{ duration: 1.0, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
+          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+        >
+          Journal
+        </MotionLink>
+
+        <motion.a
+          href={isHome ? '#collaborate' : '/#collaborate'}
+          className={isHome && activeSection === 'collaborate' ? 'active' : ''}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
+          transition={{ duration: 1.0, delay: isHome ? 0.7 : 0, ease: EASE_CINEMATIC }}
+          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+        >
+          Contact
+        </motion.a>
       </div>
     </nav>
   );

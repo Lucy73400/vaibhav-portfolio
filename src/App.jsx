@@ -17,12 +17,12 @@ import JournalPage from './pages/Journal';
 const EASE = [0.16, 1, 0.3, 1];
 
 // ─── Home Page ────────────────────────────────────────────────────────────────
-function HomePage() {
+function HomePage({ introState }) {
   return (
     <main>
-      <Hero />
-      <Atmospheric />
+      <Hero introState={introState} />
       <Identity />
+      <Atmospheric />
       <Creations />
       <Portfolio />
       <Thoughts />
@@ -33,17 +33,43 @@ function HomePage() {
 
 // ─── Root App ─────────────────────────────────────────────────────────────────
 function App() {
-  const [introComplete, setIntroComplete] = useState(false);
+  const [introState, setIntroState] = useState('logo-reveal'); // 'logo-reveal' | 'transitioning' | 'complete'
   const revealObserverRef = useRef(null);
 
-  const handleIntroComplete = useCallback(() => {
-    setIntroComplete(true);
-    document.body.classList.add('loaded');
+  // Drive the intro sequence timeline
+  useEffect(() => {
+    // 2.6 seconds of logo reveal, then transition to hero
+    const tTransition = setTimeout(() => {
+      setIntroState('transitioning');
+    }, 2600);
+
+    // 4.6 seconds total (2.0s transition duration), mark complete
+    const tComplete = setTimeout(() => {
+      setIntroState('complete');
+      document.body.classList.add('loaded');
+    }, 4600);
+
+    return () => {
+      clearTimeout(tTransition);
+      clearTimeout(tComplete);
+    };
   }, []);
 
-  // Set up scroll reveal + parallax once intro is done
+  // Control body scrolling based on intro state
   useEffect(() => {
-    if (!introComplete) return;
+    if (introState !== 'complete') {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [introState]);
+
+  // Set up scroll reveal + parallax once intro begins transitioning or is complete
+  useEffect(() => {
+    if (introState === 'logo-reveal') return;
 
     const handleScroll = () => {
       document.documentElement.style.setProperty('--scroll-y', `${window.pageYOffset}px`);
@@ -69,32 +95,27 @@ function App() {
       window.removeEventListener('scroll', handleScroll);
       revealObserverRef.current?.disconnect();
     };
-  }, [introComplete]);
+  }, [introState]);
 
   return (
     <BrowserRouter>
       {/*
-        LayoutGroup lets the shared "vaibhav-name" layoutId animate
-        continuously from CinematicIntro → Hero, even across mount/unmount.
+        LayoutGroup lets the shared layout elements animate smoothly
       */}
       <LayoutGroup>
         <CustomCursor />
         <div className="grain-overlay" aria-hidden="true" />
 
-        {/* Intro sits on top while running; unmounts when introComplete */}
-        {!introComplete && <CinematicIntro onComplete={handleIntroComplete} />}
+        {/* Intro stays mounted during logo-reveal and transitioning states */}
+        {introState !== 'complete' && (
+          <CinematicIntro introState={introState} />
+        )}
 
-        {/* Nav fades in after intro */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: introComplete ? 1 : 0 }}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          <Navbar />
-        </motion.div>
+        {/* Navbar handles its own emergence internally based on introState */}
+        <Navbar introState={introState} />
 
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage introState={introState} />} />
           <Route path="/journal" element={<JournalPage />} />
         </Routes>
 
