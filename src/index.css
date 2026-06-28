@@ -13,7 +13,12 @@
   --accent-card-border: rgba(255, 255, 255, 0.06);
   --font-serif: 'Playfair Display', serif;
   --font-mono: 'Space Mono', monospace;
+  /* Inter Tight — nav, disciplines, small UI labels */
   --font-sans: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  /* Neue Montreal — hero quote, role descriptors */
+  --font-display: 'Neue Montreal', 'Inter Tight', 'Inter', system-ui, sans-serif;
+  /* Satoshi — philosophy section manifesto */
+  --font-philosophy: 'Satoshi', 'Inter Tight', 'Inter', system-ui, sans-serif;
   --scroll-y: 0px;
 }
 
@@ -313,46 +318,48 @@ nav.scrolled {
   gap: 1.2rem;
   flex-wrap: wrap;
   justify-content: center;
-  font-family: var(--font-mono);
-  font-size: clamp(0.55rem, 1.3vw, 0.72rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(0.6rem, 1.1vw, 0.75rem);
+  font-weight: 500;
   color: var(--accent-beige);
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   margin: 2.2rem 0 0;
 }
 
 /* ── Hero quote (Richard Williams) — sits below disciplines ── */
 .hero-quote-block {
-  margin-top: 2.4rem;
+  margin-top: 2.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  /* Subtle separator above */
-  padding-top: 2rem;
+  gap: 0.55rem;
+  padding-top: 2.2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 700px;
 }
 
 .hero-quote-text {
-  font-family: var(--font-sans);
-  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem); /* ≈ 20px at 1440px viewport */
+  font-weight: 500;                          /* Neue Montreal Medium */
   font-style: italic;
-  color: rgba(255, 255, 255, 0.52);
-  line-height: 1.65;
-  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
   margin: 0;
+  text-align: center;
 }
 
 .hero-quote-author {
-  font-family: var(--font-mono);
-  font-size: 0.48rem;
-  letter-spacing: 0.32em;
+  font-family: var(--font-display);
+  font-size: clamp(0.6rem, 0.75vw, 0.72rem);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.18em;
   color: var(--accent-beige);
   text-transform: uppercase;
-  font-style: normal;
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 /* Legacy CSS animate-in kept for safety; Framer Motion is primary driver */
@@ -511,7 +518,7 @@ section {
 }
 
 .philosophy-container {
-  max-width: 680px;
+  max-width: 860px;
   width: 100%;
   text-align: center;
   display: flex;
@@ -531,14 +538,14 @@ section {
 }
 
 .philosophy-text {
-  font-family: var(--font-sans);
-  font-size: clamp(0.88rem, 1.5vw, 1.1rem);
-  font-weight: 400;
-  line-height: 1.9;
-  color: rgba(255, 255, 255, 0.55);
-  max-width: 640px;
+  font-family: var(--font-philosophy);
+  font-size: clamp(1.25rem, 2vw, 1.85rem); /* ≈ clamp(28px, 2vw, 34px) in rem */
+  font-weight: 400;                          /* Satoshi Regular */
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 850px;
   margin: 0 auto;
-  letter-spacing: 0.005em;
+  letter-spacing: -0.02em;
   will-change: transform, opacity, filter;
 }
 
