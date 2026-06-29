@@ -11,7 +11,7 @@
  *   Phase E  2400–2600ms: recovery — returns to stability
  *
  * transitioning (2600–4600ms)
- *   "MOTION" scales 1→1.8, blurs 0→28px, fades 1→0
+ *   "VAIBHAV" scales 1→1.8, blurs 0→28px, fades 1→0
  *   Overlay fades out, hero emerges behind
  *
  * complete (4600ms+)
@@ -93,7 +93,7 @@ export default function CinematicIntro({ introState }) {
   const magentaX = -hasGlitch ? glitch * 3.5: 0;
   const yellowX  =  hasGlitch ? glitch * 2  : 0;
 
-  const TEXT = 'MOTION';
+  const TEXT = 'VAIBHAV';
 
   return (
     <AnimatePresence>
