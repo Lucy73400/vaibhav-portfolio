@@ -63,11 +63,11 @@ function ChromaLayer({ color, xOffset, yOffset, opacity, children }) {
         mixBlendMode: 'screen',
         pointerEvents: 'none',
         userSelect: 'none',
-        fontFamily:    'inherit',
-        fontSize:      'inherit',
-        fontWeight:    'inherit',
-        letterSpacing: 'inherit',
-        lineHeight:    'inherit',
+        fontFamily:    'Bodoni Moda',
+        fontSize:      'Bodoni Moda',
+        fontWeight:    'Bodoni Moda',
+        letterSpacing: 'Bodoni Moda',
+        lineHeight:    'Bodoni Moda',
       }}
       animate={{ x: xOffset, y: yOffset, opacity }}
       transition={{ duration: 0.06, ease: 'linear' }}
