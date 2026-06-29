@@ -4,7 +4,7 @@
  * TIMELINE (total ≈ 4.6s, driven by App.jsx introState)
  *
  * logo-reveal  (0 – 2600ms)
- *   Phase A  0–800ms    : "MOTION" appears, sharp, centered, pure black
+ *   Phase A  0–800ms    : "VAIBHAV" appears, sharp, centered, pure black
  *   Phase B  800–1400ms : glitch burst #1 — chromatic aberration + jitter
  *   Phase C  1400–1900ms: settle — back to perfect clarity
  *   Phase D  1900–2400ms: glitch burst #2 — stronger distortion
