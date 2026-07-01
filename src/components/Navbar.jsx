@@ -93,15 +93,21 @@ export default function Navbar({ introState }) {
         </motion.a>
 
         <MotionLink
-          to="/journal"
-          className={isJournal ? 'active' : ''}
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
-          transition={{ duration: 1.0, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
-          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
-        >
-          Journal
-        </MotionLink>
+  to="/journal"
+  className={isJournal ? 'active' : ''}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: visible ? 1 : 0 }}
+  transition={{ duration: 1.0, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
+  style={{ 
+    display: 'inline-block', 
+    willChange: 'opacity',
+    // Ensures the browser reserves space even if opacity is 0
+    minWidth: '50px', 
+    textAlign: 'center'
+  }}
+>
+  Journal
+</MotionLink>
 
         <motion.a
           href={isHome ? '#collaborate' : '/#collaborate'}
