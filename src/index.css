@@ -506,49 +506,115 @@ section {
 .vis-ml { left: 4vw; }
 .vis-mr { right: 4vw; }
 
-/* --- CREATIVE PHILOSOPHY / MANIFESTO --- */
-#identity.philosophy-section {
+/* --- ABOUT SECTION ─────────────────────────────────────────────────────── */
+#identity.about-section {
   background: var(--bg-dark);
-  padding: 16vh 8vw;
+  padding: 18vh 8vw 16vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: auto;
+  align-items: flex-start;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.philosophy-container {
-  max-width: 860px;
+.about-inner {
+  max-width: 660px;
   width: 100%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sec-label.centered {
-  text-align: center;
-  margin-bottom: 2.8rem;
-}
-
-.philosophy-content {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.philosophy-text {
-  font-family: var(--font-philosophy);
-  font-size: clamp(1.25rem, 2vw, 1.85rem); /* ≈ clamp(28px, 2vw, 34px) in rem */
-  font-weight: 400;                          /* Satoshi Regular */
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 850px;
-  margin: 0 auto;
-  letter-spacing: -0.02em;
-  will-change: transform, opacity, filter;
+.about-label {
+  margin-bottom: 4rem;
+  display: block;
 }
 
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+/* Lead paragraph — larger, more weight */
+.about-para {
+  margin: 0;
+  padding: 0;
+}
+
+.about-para--lead {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Body paragraphs — refined sans-serif, comfortable reading */
+.about-para--body {
+  font-family: var(--font-philosophy);
+  font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.95;
+  letter-spacing: -0.005em;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+/* Closing paragraph — slightly more prominent */
+.about-para--closing {
+  font-family: var(--font-philosophy);
+  font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.95;
+  letter-spacing: -0.005em;
+  color: rgba(255, 255, 255, 0.72);
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0.8rem;
+}
+
+/* Signature */
+.about-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 4.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.about-signature-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-light);
+}
+
+.about-signature-role {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-beige);
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-para--lead {
+    font-size: clamp(1.35rem, 5.5vw, 1.9rem);
+  }
+  .about-content {
+    gap: 2.4rem;
+  }
+}
+
+/* Legacy classes — kept so old CSS references don't break silently */
+.philosophy-section { /* aliased to about-section */ }
+.philosophy-container { display: none; }
+.philosophy-text { display: none; }
 
 
 /* --- WHAT I CREATE (CATEGORIES) --- */

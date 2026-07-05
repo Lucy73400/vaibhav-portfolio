@@ -1,23 +1,34 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
+
+// ── Smooth scroll to a section id ─────────────────────────────────────────────
+function scrollToSection(id) {
+  if (id === 'top') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
 export default function Navbar({ introState }) {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-  const location = useLocation();
-  const isHome = location.pathname === '/';
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const isHome    = location.pathname === '/';
+  const isJournal = location.pathname === '/journal';
 
-  // If we are on sub-pages (e.g. Journal), don't delay navbar elements
+  // Navbar fades in after intro — immediately visible on sub-pages
   const visible = !isHome || introState !== 'logo-reveal';
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-
       if (!isHome) return;
 
       const sections = ['hero', 'identity', 'creations', 'portfolio', 'collaborate'];
@@ -26,7 +37,7 @@ export default function Navbar({ introState }) {
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el) {
-          const top = el.offsetTop - 240;
+          const top    = el.offsetTop - 240;
           const bottom = top + el.offsetHeight;
           if (scrollPos >= top && scrollPos < bottom) {
             setActiveSection(id);
@@ -40,82 +51,110 @@ export default function Navbar({ introState }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isHome]);
 
-  const isJournal = location.pathname === '/journal';
+  // Logo click: smooth scroll to top if on home, navigate home if elsewhere
+  const handleLogoClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (isHome) {
+        scrollToSection('top');
+      } else {
+        navigate('/');
+        // After navigation the new page mounts at the top naturally
+      }
+    },
+    [isHome, navigate]
+  );
+
+  // Section link click: navigate home first if on sub-page, then scroll
+  const handleSectionClick = useCallback(
+    (e, sectionId) => {
+      e.preventDefault();
+      if (isHome) {
+        scrollToSection(sectionId);
+      } else {
+        navigate('/');
+        // Scroll after the route has changed and DOM has painted
+        setTimeout(() => scrollToSection(sectionId), 120);
+      }
+    },
+    [isHome, navigate]
+  );
+
+  // Shared motion props — opacity only, NO y-transform (prevents layout shift)
+  const linkMotion = (delayHome) => ({
+    initial:    { opacity: 0 },
+    animate:    { opacity: visible ? 1 : 0 },
+    transition: { duration: 1.0, delay: isHome ? delayHome : 0, ease: EASE_CINEMATIC },
+    style:      { willChange: 'opacity' },
+  });
 
   return (
-    <nav id="mainnav" className={scrolled ? 'scrolled' : ''} role="navigation" aria-label="Main navigation">
-      <Link to="/" className="nav-logo" aria-label="Vaibhav — Home">
-        {/* Navigation Logo resolves after nav link stagger starts */}
+    <nav
+      id="mainnav"
+      className={scrolled ? 'scrolled' : ''}
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      {/* ── Logo — smooth scroll to top ── */}
+      <a
+        href="/"
+        className="nav-logo"
+        aria-label="Vaibhav — Home"
+        onClick={handleLogoClick}
+      >
         <motion.img
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: visible ? 0.9 : 0, scale: visible ? 1 : 0.92 }}
-          transition={{ duration: 1.2, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
           src="https://i.ibb.co/hJwV1pph/MY-personal-logo.png"
           alt="Vaibhav Logo"
           className="nav-logo-img"
-          style={{ willChange: 'opacity, transform' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: visible ? 0.9 : 0 }}
+          transition={{ duration: 1.2, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'opacity' }}
         />
-      </Link>
-      
+      </a>
+
+      {/* ── Nav links — all stable, opacity-only animation ── */}
       <div className="nav-links">
-        {/* Staggered Navigation Links */}
         <motion.a
-          href={isHome ? '#hero' : '/'}
+          href="/#hero"
+          onClick={(e) => handleSectionClick(e, 'hero')}
           className={isHome && activeSection === 'hero' ? 'active' : ''}
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
-          transition={{ duration: 1.0, delay: isHome ? 0.3 : 0, ease: EASE_CINEMATIC }}
-          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+          {...linkMotion(0.3)}
         >
           Home
         </motion.a>
 
         <motion.a
-          href={isHome ? '#identity' : '/#identity'}
+          href="/#identity"
+          onClick={(e) => handleSectionClick(e, 'identity')}
           className={isHome && activeSection === 'identity' ? 'active' : ''}
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
-          transition={{ duration: 1.0, delay: isHome ? 0.4 : 0, ease: EASE_CINEMATIC }}
-          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+          {...linkMotion(0.4)}
         >
           About
         </motion.a>
 
         <motion.a
-          href={isHome ? '#portfolio' : '/#portfolio'}
+          href="/#portfolio"
+          onClick={(e) => handleSectionClick(e, 'portfolio')}
           className={isHome && activeSection === 'portfolio' ? 'active' : ''}
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
-          transition={{ duration: 1.0, delay: isHome ? 0.5 : 0, ease: EASE_CINEMATIC }}
-          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+          {...linkMotion(0.5)}
         >
           Work
         </motion.a>
 
         <MotionLink
-  to="/journal"
-  className={isJournal ? 'active' : ''}
-  initial={{ opacity: 0 }}
-  animate={{ opacity: visible ? 1 : 0 }}
-  transition={{ duration: 1.0, delay: isHome ? 0.6 : 0, ease: EASE_CINEMATIC }}
-  style={{ 
-    display: 'inline-block', 
-    willChange: 'opacity',
-    // Ensures the browser reserves space even if opacity is 0
-    minWidth: '50px', 
-    textAlign: 'center'
-  }}
->
-  Journal
-</MotionLink>
+          to="/journal"
+          className={isJournal ? 'active' : ''}
+          {...linkMotion(0.6)}
+        >
+          Journal
+        </MotionLink>
 
         <motion.a
-          href={isHome ? '#collaborate' : '/#collaborate'}
+          href="/#collaborate"
+          onClick={(e) => handleSectionClick(e, 'collaborate')}
           className={isHome && activeSection === 'collaborate' ? 'active' : ''}
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -12 }}
-          transition={{ duration: 1.0, delay: isHome ? 0.7 : 0, ease: EASE_CINEMATIC }}
-          style={{ display: 'inline-block', willChange: 'opacity, transform' }}
+          {...linkMotion(0.7)}
         >
           Contact
         </motion.a>
