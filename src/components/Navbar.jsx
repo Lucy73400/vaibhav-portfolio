@@ -31,7 +31,7 @@ export default function Navbar({ introState }) {
       setScrolled(window.scrollY > 50);
       if (!isHome) return;
 
-      const sections = ['hero', 'identity', 'creations', 'portfolio', 'collaborate'];
+      const sections = ['hero', 'philosophy', 'identity', 'creations', 'portfolio', 'collaborate'];
       const scrollPos = window.scrollY;
 
       for (const id of sections) {
@@ -127,7 +127,7 @@ export default function Navbar({ introState }) {
         <motion.a
           href="/#identity"
           onClick={(e) => handleSectionClick(e, 'identity')}
-          className={isHome && activeSection === 'identity' ? 'active' : ''}
+          className={isHome && (activeSection === 'identity' || activeSection === 'philosophy') ? 'active' : ''}
           {...linkMotion(0.4)}
         >
           About

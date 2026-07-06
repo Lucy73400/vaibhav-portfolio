@@ -509,7 +509,7 @@ section {
 /* --- ABOUT SECTION ─────────────────────────────────────────────────────── */
 #identity.about-section {
   background: var(--bg-dark);
-  padding: 18vh 8vw 16vh;
+  padding: 8vh 8vw 16vh; /* Decreased top padding to flow seamlessly from Philosophy */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -611,10 +611,51 @@ section {
   }
 }
 
-/* Legacy classes — kept so old CSS references don't break silently */
-.philosophy-section { /* aliased to about-section */ }
-.philosophy-container { display: none; }
-.philosophy-text { display: none; }
+/* --- PHILOSOPHY SECTION ─────────────────────────────────────────────────── */
+.philosophy-section {
+  background: var(--bg-dark);
+  padding: 18vh 8vw 6vh; /* Large top padding, small bottom padding for seamless transition */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.philosophy-inner {
+  max-width: 660px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.philosophy-label {
+  margin-bottom: 4rem;
+  display: block;
+}
+
+.philosophy-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.philosophy-manifesto {
+  font-family: var(--font-philosophy);
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .philosophy-section {
+    padding: 12vh 8vw 4vh;
+  }
+  .philosophy-manifesto {
+    font-size: clamp(1.2rem, 5.5vw, 1.8rem);
+    line-height: 1.5;
+  }
+}
 
 
 /* --- WHAT I CREATE (CATEGORIES) --- */

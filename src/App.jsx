@@ -5,6 +5,7 @@ import CustomCursor from './components/CustomCursor';
 import CinematicIntro from './components/CinematicIntro';
 import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
+import Philosophy from './sections/Philosophy';
 import Atmospheric from './sections/Atmospheric';
 import Identity from './sections/Identity';
 import Creations from './sections/Creations';
@@ -29,6 +30,7 @@ function HomePage({ introState }) {
   return (
     <main>
       <Hero introState={introState} />
+      <Philosophy />
       <Identity />
       <Atmospheric />
       <Creations />

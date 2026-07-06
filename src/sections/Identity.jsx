@@ -33,47 +33,36 @@ const PARAGRAPHS = [
     id: 'p1',
     type: 'lead',
     lines: [
-      'Animation is not what I do.',
-      'It is how I think.',
+      'There is a quiet power in mastering a single craft—',
+      'in writing code, illustrating lines, or holding a camera.',
+      'But I have always found my home in the space between them.',
     ],
   },
   {
     id: 'p2',
     type: 'body',
     lines: [
-      'Every frame carries a question.',
-      'What does this moment feel like?',
-      'What would make a stranger pause, feel something,',
-      'and carry it with them after the screen goes dark?',
+      'I move between disciplines not to collect titles, but to expand how I see.',
+      'To paint is to study light. To write code is to understand structure.',
+      'To animate is to give both a heartbeat. Every medium I touch teaches',
+      'me a new language, exposing a different dimension of the same story.',
     ],
   },
   {
     id: 'p3',
     type: 'body',
     lines: [
-      'I move between disciplines — animation, film, illustration,',
-      'music, storytelling — not because I cannot choose one,',
-      'but because the work demands all of them.',
-      'The best stories resist simple categories.',
+      'This is not a search for a final destination, but an ongoing exploration.',
+      'By refusing the limits of a single tool, I remain a perpetual student,',
+      'constantly learning, adapting, and finding new ways to connect.',
     ],
   },
   {
     id: 'p4',
-    type: 'body',
-    lines: [
-      'Every project teaches me something I did not know I needed to learn.',
-      'Every experiment leaves a mark on my perspective.',
-      'I am always in the middle of becoming something more.',
-    ],
-  },
-  {
-    id: 'p5',
     type: 'closing',
     lines: [
-      'My ambition is not to imitate the work I admire.',
-      'It is to build worlds, tell stories,',
-      'and create frames that people still remember',
-      'long after the project is finished.',
+      'In the end, craftsmanship is not about the medium we choose—',
+      'it is about the care we bring to it, and the stories we leave behind.',
     ],
   },
 ];
@@ -94,7 +83,7 @@ export default function Identity() {
           animate={{ opacity: headerInView ? 1 : 0 }}
           transition={{ duration: 1.2, ease: EASE }}
         >
-          02 / ABOUT
+          03 / ABOUT
         </motion.span>
 
         {/* ── Paragraphs ── */}
