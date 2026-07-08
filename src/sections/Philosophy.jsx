@@ -12,14 +12,14 @@ function RevealLine({ children, delay = 0, className = '' }) {
     <motion.span
       ref={ref}
       className={className}
-      style={{ display: 'block' }}
-      initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
+      style={{ display: 'block', willChange: 'opacity, transform, filter' }}
+      initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
       animate={
         inView
           ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-          : { opacity: 0, y: 18, filter: 'blur(8px)' }
+          : { opacity: 0, y: 20, filter: 'blur(8px)' }
       }
-      transition={{ duration: 1.6, delay, ease: EASE }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
     >
       {children}
     </motion.span>
@@ -27,39 +27,38 @@ function RevealLine({ children, delay = 0, className = '' }) {
 }
 
 export default function Philosophy() {
-  const labelRef = useRef(null);
-  const labelInView = useInView(labelRef, { once: true, margin: '-5% 0px' });
-
-  const lines = [
-    "I believe animation is more than movement.",
-    "It's the art of giving life to ideas.",
-    "Every project I create is a step toward building worlds,",
-    "telling stories, and inspiring the next generation of creators."
-  ];
-
   return (
     <section id="philosophy" className="philosophy-section" aria-label="Creative Philosophy">
       <div className="philosophy-inner">
-        {/* ── Section label ── */}
-        <motion.span
-          ref={labelRef}
-          className="sec-label philosophy-label"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: labelInView ? 1 : 0 }}
-          transition={{ duration: 1.2, ease: EASE }}
-        >
-          02 / BELIEFS
-        </motion.span>
+        {/* Understated Section Header */}
+        <h2 className="philosophy-title">Philosophy</h2>
 
-        {/* ── Manifesto ── */}
+        {/* Narrative Manifesto */}
         <div className="philosophy-content">
-          <p className="philosophy-manifesto">
-            {lines.map((line, idx) => (
-              <RevealLine key={idx} delay={idx * 0.15}>
-                {line}
-              </RevealLine>
-            ))}
-          </p>
+          <div className="philosophy-manifesto">
+            
+            {/* First Group: Observations */}
+            <div className="phi-group phi-group--obs">
+              <RevealLine delay={0.10} className="phi-line">Some people write code.</RevealLine>
+              <RevealLine delay={0.25} className="phi-line">Some people paint.</RevealLine>
+              <RevealLine delay={0.40} className="phi-line">Some people sing.</RevealLine>
+            </div>
+
+            {/* Emotional Turning Point */}
+            <div className="phi-group phi-group--focus">
+              <RevealLine delay={1.05} className="phi-line phi-line--focus">I move between all of them.</RevealLine>
+            </div>
+
+            {/* Third Group: Declarations */}
+            <div className="phi-group phi-group--dec">
+              <RevealLine delay={2.00} className="phi-line">I animate.</RevealLine>
+              <RevealLine delay={2.15} className="phi-line">I shoot.</RevealLine>
+              <RevealLine delay={2.30} className="phi-line">I edit.</RevealLine>
+              <RevealLine delay={2.45} className="phi-line">I visualize.</RevealLine>
+              <RevealLine delay={2.60} className="phi-line">I tell stories.</RevealLine>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>

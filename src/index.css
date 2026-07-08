@@ -17,8 +17,8 @@
   --font-sans: 'Inter Tight', 'Inter', system-ui, sans-serif;
   /* Neue Montreal — hero quote, role descriptors */
   --font-display: 'Neue Montreal', 'Inter Tight', 'Inter', system-ui, sans-serif;
-  /* Satoshi — philosophy section manifesto */
-  --font-philosophy: 'Satoshi', 'Inter Tight', 'Inter', system-ui, sans-serif;
+  /* Canela / Cormorant Garamond — philosophy section manifesto */
+  --font-philosophy: 'Canela', 'Cormorant Garamond', var(--font-serif);
   --scroll-y: 0px;
 }
 
@@ -506,154 +506,138 @@ section {
 .vis-ml { left: 4vw; }
 .vis-mr { right: 4vw; }
 
-/* --- ABOUT SECTION ─────────────────────────────────────────────────────── */
-#identity.about-section {
-  background: var(--bg-dark);
-  padding: 8vh 8vw 16vh; /* Decreased top padding to flow seamlessly from Philosophy */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.about-inner {
-  max-width: 660px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.about-label {
-  margin-bottom: 4rem;
-  display: block;
-}
-
-.about-content {
-  display: flex;
-  flex-direction: column;
-  gap: 3.2rem;
-}
-
-/* Lead paragraph — larger, more weight */
-.about-para {
-  margin: 0;
-  padding: 0;
-}
-
-.about-para--lead {
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.35;
-  letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-/* Body paragraphs — refined sans-serif, comfortable reading */
-.about-para--body {
-  font-family: var(--font-philosophy);
-  font-size: clamp(0.88rem, 1.3vw, 1.05rem);
-  font-weight: 400;
-  line-height: 1.95;
-  letter-spacing: -0.005em;
-  color: rgba(255, 255, 255, 0.58);
-}
-
-/* Closing paragraph — slightly more prominent */
-.about-para--closing {
-  font-family: var(--font-philosophy);
-  font-size: clamp(0.88rem, 1.3vw, 1.05rem);
-  font-weight: 400;
-  line-height: 1.95;
-  letter-spacing: -0.005em;
-  color: rgba(255, 255, 255, 0.72);
-  padding-top: 0.8rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  margin-top: 0.8rem;
-}
-
-/* Signature */
-.about-signature {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 4.5rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.about-signature-name {
-  font-family: var(--font-serif);
-  font-size: clamp(1rem, 1.6vw, 1.3rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--text-light);
-}
-
-.about-signature-role {
-  font-family: var(--font-mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--accent-beige);
-  opacity: 0.7;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .about-para--lead {
-    font-size: clamp(1.35rem, 5.5vw, 1.9rem);
-  }
-  .about-content {
-    gap: 2.4rem;
-  }
-}
-
 /* --- PHILOSOPHY SECTION ─────────────────────────────────────────────────── */
 .philosophy-section {
   background: var(--bg-dark);
-  padding: 18vh 8vw 6vh; /* Large top padding, small bottom padding for seamless transition */
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  min-height: 100vh; /* Full screen section */
+  padding: 12vh 8vw;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .philosophy-inner {
-  max-width: 660px;
+  max-width: 800px; /* 700-800px maximum */
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.philosophy-label {
-  margin-bottom: 4rem;
-  display: block;
+.philosophy-title {
+  font-family: var(--font-display);
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 8vh; /* Generous negative space below title */
+  text-align: center;
 }
 
 .philosophy-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .philosophy-manifesto {
-  font-family: var(--font-philosophy);
-  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.phi-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phi-line {
+  font-family: var(--font-philosophy);
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  color: #F4F4F4; /* Soft white */
+  text-align: center;
+  will-change: opacity, transform, filter;
+}
+
+/* First group: observation lines have clean default gaps */
+.phi-group--obs .phi-line {
+  margin-bottom: 0.8rem;
+}
+.phi-group--obs .phi-line:last-child {
+  margin-bottom: 0;
+}
+
+/* Emotional turning point */
+.phi-group--focus {
+  margin-top: 4.5rem; /* Blank line pacing spacing */
+  margin-bottom: 4.5rem;
+}
+
+.phi-line--focus {
+  font-size: 48px; /* Increased font size */
+  font-weight: 600; /* Increased weight for emphasis */
+  color: #FFF; /* Pure white contrast */
+}
+
+/* Final group: declarations with generous bottom margin between lines */
+.phi-group--dec .phi-line {
+  margin-bottom: 1.8rem;
+}
+.phi-group--dec .phi-line:last-child {
+  margin-bottom: 0;
+}
+
+/* Tablet Layout Sizing */
+@media (max-width: 991px) {
+  .philosophy-section {
+    padding: 10vh 8vw;
+  }
+  .phi-line {
+    font-size: 22px;
+  }
+  .phi-line--focus {
+    font-size: 38px;
+  }
+  .phi-group--focus {
+    margin-top: 3.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .phi-group--dec .phi-line {
+    margin-bottom: 1.4rem;
+  }
+}
+
+/* Mobile Layout Sizing */
 @media (max-width: 768px) {
   .philosophy-section {
-    padding: 12vh 8vw 4vh;
+    padding: 8vh 6vw;
   }
-  .philosophy-manifesto {
-    font-size: clamp(1.2rem, 5.5vw, 1.8rem);
+  .philosophy-title {
+    margin-bottom: 6vh;
+  }
+  .phi-line {
+    font-size: 18px;
     line-height: 1.5;
+  }
+  .phi-line--focus {
+    font-size: 28px;
+  }
+  .phi-group--focus {
+    margin-top: 2.8rem;
+    margin-bottom: 2.8rem;
+  }
+  .phi-group--dec .phi-line {
+    margin-bottom: 1.1rem;
   }
 }
 

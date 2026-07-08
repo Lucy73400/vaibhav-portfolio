@@ -7,7 +7,6 @@ import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Philosophy from './sections/Philosophy';
 import Atmospheric from './sections/Atmospheric';
-import Identity from './sections/Identity';
 import Creations from './sections/Creations';
 import Portfolio from './sections/Portfolio';
 import Thoughts from './sections/Thoughts';
@@ -31,7 +30,6 @@ function HomePage({ introState }) {
     <main>
       <Hero introState={introState} />
       <Philosophy />
-      <Identity />
       <Atmospheric />
       <Creations />
       <Portfolio />
