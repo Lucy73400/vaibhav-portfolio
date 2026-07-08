@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import heroImage from '../assets/hero.png';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
 
@@ -16,57 +17,87 @@ export default function Hero({ introState }) {
         transition={{ duration: 1.8, ease: EASE_CINEMATIC }}
       />
 
-      <div className="hero-content">
-        {/* ── Hero typography (VAIBHAV) ── */}
-        <motion.h1
-          className="hero-name-label"
-          initial={{ opacity: 0, filter: 'blur(15px)', y: 15 }}
+      {/* ── Two-column layout ── */}
+      <div className="hero-layout">
+
+        {/* ── LEFT — identity & typography ── */}
+        <div className="hero-content">
+          {/* VAIBHAV */}
+          <motion.h1
+            className="hero-name-label"
+            initial={{ opacity: 0, filter: 'blur(15px)', y: 15 }}
+            animate={{
+              opacity: visible ? 1 : 0,
+              filter:  visible ? 'blur(0px)' : 'blur(15px)',
+              y:       visible ? 0 : 15,
+            }}
+            transition={{ duration: 1.6, delay: 0.8, ease: EASE_CINEMATIC }}
+            style={{ willChange: 'transform, opacity, filter' }}
+          >
+            VAIBHAV
+          </motion.h1>
+
+          {/* Disciplines */}
+          <motion.div
+            className="hero-disciplines"
+            aria-label="Creative disciplines"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
+            transition={{ duration: 1.4, delay: 1.1, ease: EASE_CINEMATIC }}
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <span className="discipline-tag">Animator</span>
+            <span className="discipline-separator" aria-hidden="true">•</span>
+            <span className="discipline-tag">Illustrator</span>
+            <span className="discipline-separator" aria-hidden="true">•</span>
+            <span className="discipline-tag">Storyteller</span>
+            <span className="discipline-separator" aria-hidden="true">•</span>
+            <span className="discipline-tag">Visual Creator</span>
+          </motion.div>
+
+          {/* Quote */}
+          <motion.blockquote
+            className="hero-quote-block"
+            initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
+            animate={{
+              opacity: visible ? 1 : 0,
+              y:       visible ? 0 : 15,
+              filter:  visible ? 'blur(0px)' : 'blur(5px)',
+            }}
+            transition={{ duration: 1.6, delay: 1.4, ease: EASE_CINEMATIC }}
+            style={{ willChange: 'transform, opacity, filter' }}
+          >
+            <p className="hero-quote-text">
+              "We're not copying life, we're making a comment on it."
+            </p>
+            <cite className="hero-quote-author">— Richard Williams</cite>
+          </motion.blockquote>
+        </div>
+
+        {/* ── RIGHT — hero image ── */}
+        <motion.div
+          className="hero-image-wrap"
+          aria-hidden="true"
+          initial={{ opacity: 0, scale: 1.03, filter: 'blur(8px)' }}
           animate={{
             opacity: visible ? 1 : 0,
-            filter: visible ? 'blur(0px)' : 'blur(15px)',
-            y: visible ? 0 : 15,
+            scale:   visible ? 1 : 1.03,
+            filter:  visible ? 'blur(0px)' : 'blur(8px)',
           }}
-          transition={{ duration: 1.6, delay: 0.8, ease: EASE_CINEMATIC }}
+          transition={{ duration: 1.4, delay: 1.3, ease: EASE_CINEMATIC }}
           style={{ willChange: 'transform, opacity, filter' }}
         >
-          VAIBHAV
-        </motion.h1>
-
-        {/* ── Disciplines ── */}
-        <motion.div
-          className="hero-disciplines"
-          aria-label="Creative disciplines"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
-          transition={{ duration: 1.4, delay: 1.1, ease: EASE_CINEMATIC }}
-          style={{ willChange: 'transform, opacity' }}
-        >
-          <span className="discipline-tag">Animator</span>
-          <span className="discipline-separator" aria-hidden="true">•</span>
-          <span className="discipline-tag">Illustrator</span>
-          <span className="discipline-separator" aria-hidden="true">•</span>
-          <span className="discipline-tag">Storyteller</span>
-          <span className="discipline-separator" aria-hidden="true">•</span>
-          <span className="discipline-tag">Visual Creator</span>
+          <img
+            src={heroImage}
+            alt="Vaibhav Khule — Animator and Visual Creator"
+            className="hero-image"
+            loading="eager"
+            draggable="false"
+          />
+          {/* Edge fade — blends image into dark background */}
+          <div className="hero-image-fade" aria-hidden="true" />
         </motion.div>
 
-        {/* ── Quote (Supporting the identity) ── */}
-        <motion.blockquote
-          className="hero-quote-block"
-          initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
-          animate={{
-            opacity: visible ? 1 : 0,
-            y: visible ? 0 : 15,
-            filter: visible ? 'blur(0px)' : 'blur(5px)',
-          }}
-          transition={{ duration: 1.6, delay: 1.4, ease: EASE_CINEMATIC }}
-          style={{ willChange: 'transform, opacity, filter' }}
-        >
-          <p className="hero-quote-text">
-            "We're not copying life, we're making a comment on it."
-          </p>
-          <cite className="hero-quote-author">— Richard Williams</cite>
-        </motion.blockquote>
       </div>
 
       {/* ── Scroll indicator ── */}
