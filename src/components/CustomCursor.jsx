@@ -43,8 +43,9 @@ export default function CustomCursor() {
         if (ringRef.current) {
           ringRef.current.style.width = '64px';
           ringRef.current.style.height = '64px';
-          ringRef.current.style.borderColor = 'rgba(200, 187, 168, 0.95)';
-          ringRef.current.style.backgroundColor = 'rgba(200, 187, 168, 0.05)';
+          /* Gold-tinted ring on interactive hover */
+          ringRef.current.style.borderColor = 'rgba(255, 201, 60, 0.6)';
+          ringRef.current.style.backgroundColor = 'rgba(255, 201, 60, 0.04)';
         }
         if (dotRef.current) {
           dotRef.current.style.opacity = '0';

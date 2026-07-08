@@ -11,7 +11,25 @@
     <title>Vaibhav — The Creator</title>
   </head>
   <body>
+    <!-- Gold scroll progress bar — fixed top, GPU-accelerated via transform -->
+    <div id="scroll-progress" aria-hidden="true"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      /* Scroll progress bar — vanilla JS, does not touch React state */
+      (function () {
+        var bar = document.getElementById('scroll-progress');
+        if (!bar) return;
+        function update() {
+          var doc   = document.documentElement;
+          var total = doc.scrollHeight - doc.clientHeight;
+          var pct   = total > 0 ? (window.scrollY / total) * 100 : 0;
+          /* scaleX is GPU-accelerated — no layout thrash */
+          bar.style.transform = 'scaleX(' + (pct / 100) + ')';
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+      })();
+    </script>
   </body>
 </html>

@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
 
-// External background artwork — no local import needed, no bundler processing
-const BG_IMAGE = 'https://i.ibb.co/gFrTSQ49/Chat-GPT-Image-Jul-9-2026-02-31-20-AM.png';
+// External background artwork — new image
+const BG_IMAGE = 'https://i.ibb.co/DDYCNnNb/Chat-GPT-Image-Jul-9-2026-02-59-17-AM.png';
 
 export default function Hero({ introState }) {
   const visible = introState !== 'logo-reveal';

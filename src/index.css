@@ -20,6 +20,16 @@
   /* Canela / Cormorant Garamond — philosophy section manifesto */
   --font-philosophy: 'Canela', 'Cormorant Garamond', var(--font-serif);
   --scroll-y: 0px;
+
+  /* ── Gold accent system ───────────────────────────────────────────────────
+     #FFC93C — craftsmanship, warmth, precision.
+     Used sparingly: never decorative, always intentional.
+  ──────────────────────────────────────────────────────────────────────── */
+  --gold:          #FFC93C;
+  --gold-dim:      rgba(255, 201, 60, 0.55);   /* hover states, muted presence */
+  --gold-subtle:   rgba(255, 201, 60, 0.18);   /* ambient glow, backgrounds   */
+  --gold-hairline: rgba(255, 201, 60, 0.22);   /* dividers, borders            */
+  --gold-selection-bg: rgba(255, 201, 60, 0.28); /* text selection             */
 }
 
 html {
@@ -51,7 +61,8 @@ body {
   position: fixed;
   width: 8px;
   height: 8px;
-  background: var(--text-light);
+  /* Gold center dot — the single most intimate gold touch-point */
+  background: var(--gold);
   border-radius: 50%;
   pointer-events: none;
   z-index: 999999;
@@ -254,7 +265,8 @@ nav.scrolled {
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--accent-beige);
+  /* Gold active underline — the nav's single gold moment */
+  background: var(--gold);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -405,9 +417,10 @@ nav.scrolled {
   font-weight: 400;
   font-style: normal;
   letter-spacing: 0.18em;
-  color: var(--accent-beige);
+  /* Gold attribution — the one accent moment in the hero text stack */
+  color: var(--gold-dim);
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 /* Legacy CSS fallback; Framer Motion is primary driver */
@@ -431,7 +444,8 @@ nav.scrolled {
 .scroll-line {
   width: 1px;
   height: 60px;
-  background: linear-gradient(to bottom, var(--accent-beige), transparent);
+  /* Gold scroll thread */
+  background: linear-gradient(to bottom, var(--gold), transparent);
   animation: scrollAnim 2.2s ease-in-out infinite;
 }
 
@@ -480,7 +494,8 @@ section {
   font-size: 0.6rem;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--accent-beige);
+  /* Gold section eyebrow — guides eye to new sections */
+  color: var(--gold-dim);
   margin-bottom: 1.5rem;
   display: block;
 }
@@ -698,9 +713,10 @@ section {
 }
 
 .interactive-card:hover {
-  border-color: rgba(200, 187, 168, 0.3);
+  /* Gold card border on hover — discovered, not announced */
+  border-color: var(--gold-hairline);
   transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 40px var(--gold-subtle);
 }
 
 .card-header {
@@ -711,7 +727,8 @@ section {
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.15em;
-  color: var(--accent-beige);
+  /* Gold card index — a quiet numeric accent */
+  color: var(--gold-dim);
   margin-bottom: 1rem;
   display: block;
 }
@@ -821,6 +838,11 @@ section {
   transform: scale(1.05) translateY(calc(var(--scroll-y, 0px) * 0.01));
 }
 
+/* Gold ambient glow on image hover — very soft, no bloom */
+.selected-image-container:hover {
+  box-shadow: 0 0 60px var(--gold-subtle);
+}
+
 .selected-img::after {
   content: '';
   position: absolute;
@@ -877,7 +899,8 @@ section {
   font-size: 0.58rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent-beige);
+  /* Gold work category label */
+  color: var(--gold-dim);
   margin-bottom: 1.8rem;
   display: block;
 }
@@ -910,7 +933,7 @@ section {
 }
 
 .selected-link:hover {
-  color: var(--accent-beige);
+  color: var(--gold);
 }
 
 .selected-link:hover span {
@@ -996,7 +1019,8 @@ section {
 
 .thought-symbol {
   font-size: 1.6rem;
-  color: var(--accent-beige);
+  /* Gold ornament — the quiet accent before the quote */
+  color: var(--gold);
   margin-bottom: 2.5rem;
   display: inline-block;
   will-change: opacity, transform;
@@ -1017,9 +1041,9 @@ section {
   font-family: var(--font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.35em;
-  color: var(--accent-beige);
+  color: var(--gold-dim);
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 /* --- FOOTER VISUAL --- */
@@ -1173,8 +1197,8 @@ section {
 }
 
 .collab-email:hover {
-  color: var(--accent-beige);
-  border-color: var(--accent-beige);
+  color: var(--gold);
+  border-color: var(--gold-hairline);
 }
 
 .collab-link-row {
@@ -1195,7 +1219,7 @@ section {
 }
 
 .collab-link-row a:hover {
-  color: var(--accent-beige);
+  color: var(--gold);
 }
 
 .collab-link-row span {
@@ -1324,7 +1348,7 @@ section {
 }
 
 .ff-email-link:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--gold);
 }
 
 .ff-copy {
@@ -1451,7 +1475,7 @@ section {
 }
 
 .journal-card:hover {
-  border-color: rgba(200, 187, 168, 0.2);
+  border-color: var(--gold-hairline);
 }
 
 .journal-card-meta {
@@ -1466,7 +1490,8 @@ section {
   font-size: 0.52rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--accent-beige);
+  /* Gold category pill */
+  color: var(--gold-dim);
 }
 
 .journal-card-date {
@@ -1486,7 +1511,7 @@ section {
 }
 
 .journal-card:hover .journal-card-title {
-  color: var(--accent-beige);
+  color: var(--gold);
 }
 
 .journal-card-excerpt {
@@ -1803,4 +1828,203 @@ section {
   .article-hero-inner {
     max-width: 100%;
   }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GOLD ACCENT SYSTEM — REMAINING TOUCH-POINTS
+   All rules below are additive. Nothing above is overridden except where
+   a comment explicitly calls it out.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Text Selection ────────────────────────────────────────────────────── */
+/* Re-enable selection only where reading happens — body text & articles */
+p, h1, h2, h3, h4, h5, h6, blockquote, cite, li,
+.article-para, .article-standalone, .article-closing,
+.hero-quote-text, .thought-quote, .card-desc, .selected-desc {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+}
+
+::selection {
+  background: var(--gold-selection-bg);
+  color: var(--text-light);
+}
+::-moz-selection {
+  background: var(--gold-selection-bg);
+  color: var(--text-light);
+}
+
+/* ── 2. Scroll Progress Bar ───────────────────────────────────────────────── */
+/* DOM node lives in index.html — fixed top edge, GPU via scaleX */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 9999999;         /* above everything including cursor ring */
+  pointer-events: none;
+  will-change: transform;
+  /* Smooth out rapid updates */
+  transition: transform 0.1s linear;
+  /* Soft glow — barely perceptible, no neon */
+  box-shadow: 0 0 8px var(--gold-subtle);
+}
+
+/* ── 3. Preloader line → gold ─────────────────────────────────────────────── */
+/* Overrides the existing .preloader-line background */
+.preloader-line {
+  background: var(--gold);
+}
+
+/* ── 4. Hero disciplines — gold ───────────────────────────────────────────── */
+/* The discipline tags (Animator · Illustrator · Storyteller · Visual Creator) */
+.hero-disciplines {
+  color: var(--gold-dim);
+}
+
+/* ── 5. Hero quote border ─────────────────────────────────────────────────── */
+.hero-quote-block {
+  border-top-color: var(--gold-hairline);
+}
+
+/* ── 6. Portfolio view-all hover ──────────────────────────────────────────── */
+.portfolio-view-all a:hover {
+  color: var(--gold);
+}
+
+/* ── 7. Collab bottom links hover ────────────────────────────────────────── */
+.collab-bottom-links a:hover {
+  color: var(--gold);
+}
+
+/* ── 8. Footer email hover (already set above — reinforced via variable) ──── */
+.ff-email-link:hover {
+  color: var(--gold);
+}
+
+/* ── 9. Footer ✦ icon → gold ──────────────────────────────────────────────── */
+.ff-icon {
+  color: var(--gold-dim);
+}
+
+/* ── 10. Blockquotes — gold left border + quote mark ─────────────────────── */
+blockquote:not(.hero-quote-block) {
+  border-left: 2px solid var(--gold-hairline);
+  padding-left: 1.4rem;
+  position: relative;
+}
+
+/* ── 11. Form focus — gold border ────────────────────────────────────────── */
+/* Covers journal search + any future inputs/textareas */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--gold-hairline) !important;
+  box-shadow: 0 0 0 1px var(--gold-subtle);
+}
+
+.journal-search:focus {
+  border-color: var(--gold-hairline);
+  box-shadow: none; /* search bar is borderless — only bottom border */
+}
+
+/* ── 12. Journal page — hero label gold ──────────────────────────────────── */
+.journal-hero-label {
+  color: var(--gold-dim);
+}
+
+/* ── 13. Journal card link hover gold ────────────────────────────────────── */
+.journal-card-link:hover {
+  color: var(--gold);
+}
+
+/* ── 14. Journal search caret gold ───────────────────────────────────────── */
+.journal-search {
+  caret-color: var(--gold);
+}
+
+/* ── 15. Article page — gold touch-points ────────────────────────────────── */
+
+/* Meta line (Personal · 8 Jul 2026) */
+.article-hero-meta {
+  color: var(--gold-dim);
+}
+
+/* Divider rule beneath the title */
+.article-hero-divider {
+  background: var(--gold);
+  opacity: 0.55;
+}
+
+/* Standalone emotional lines — gold left border */
+.article-standalone {
+  border-left-color: var(--gold-hairline);
+}
+
+/* Closing line — gold text */
+.article-closing {
+  color: var(--gold-dim);
+}
+
+/* Back link hover */
+.article-back-link:hover,
+.article-back-bottom:hover {
+  color: var(--gold);
+}
+
+/* Tags — gold border + text on hover */
+.article-tag:hover {
+  color: var(--gold);
+  border-color: var(--gold-hairline);
+}
+
+/* ── 16. Journal hero — search border-bottom on focus ────────────────────── */
+/* Already handled above in form focus. Explicit for specificity. */
+
+/* ── 17. Cursor ring — gold tint on interactive hover ────────────────────── */
+/* The ring turns gold-tinted when hovering links/buttons */
+/* Updated via CustomCursor.jsx hover handlers; CSS provides the transition color */
+#ring {
+  transition:
+    width      0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    height     0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+/* ── 18. Vis-play button — gold border on hover ───────────────────────────── */
+.vis-play:hover {
+  border-color: var(--gold);
+  background-color: var(--gold);
+}
+
+.vis-play:hover span {
+  color: var(--bg-dark);
+}
+
+/* ── 19. Section border-top hairlines → very subtle gold tint ────────────── */
+/* Replaces the pure white rgba hairlines in key sections */
+#portfolio {
+  border-top-color: var(--gold-hairline);
+}
+
+#creative-thoughts {
+  border-top-color: var(--gold-hairline);
+}
+
+/* ── 20. Philosophy section border-bottom → gold hairline ────────────────── */
+.philosophy-section {
+  border-bottom-color: var(--gold-hairline);
+}
+
+/* ── 21. Collab section border-top → gold hairline ───────────────────────── */
+#collaborate {
+  border-top-color: var(--gold-hairline);
 }
