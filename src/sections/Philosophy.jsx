@@ -36,11 +36,11 @@ function PhiLine({ text, index }) {
           : { opacity: 0, y: 30, filter: 'blur(10px)' }
       }
       transition={{
-        duration: 0.85,
+        duration: 0.55, // Slightly faster (was 0.85)
         delay: index * STAGGER,
         ease: EASE,
       }}
-      // Hover: slight brightness + scale 1.015, no color change
+      // Hover: slight brightness + scale 1.015
       whileHover={{
         scale: 1.015,
         color: '#FFFFFF',
@@ -51,7 +51,7 @@ function PhiLine({ text, index }) {
         originY: 0.5,
         margin: 0,
         padding: 0,
-        fontWeight: 600, // ← Changed from Bold to SemiBold
+        fontWeight: 500, // Medium
       }}
     >
       {text}
