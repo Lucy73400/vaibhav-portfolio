@@ -13,6 +13,7 @@ import Thoughts from './sections/Thoughts';
 import Collaborate from './sections/Collaborate';
 import Footer from './components/Footer';
 import JournalPage from './pages/Journal';
+import MyLastTenDays from './pages/MyLastTenDays';
 
 // ─── Intro state is persisted to sessionStorage so navigating between
 //     routes never replays the intro. It only runs once per browser tab.
@@ -123,6 +124,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage introState={introState} />} />
           <Route path="/journal" element={<JournalPage />} />
+          <Route path="/journal/my-last-ten-days" element={<MyLastTenDays />} />
         </Routes>
 
         <Footer />

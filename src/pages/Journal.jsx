@@ -1,8 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // ─── Journal entry data ───────────────────────────────────────────────────────
-// Replace with real content or a CMS feed in the future
 const JOURNAL_ENTRIES = [
+  {
+    id: 0,
+    title: 'My Last Ten Days',
+    date: '8 Jul 2026',
+    category: 'Personal',
+    excerpt:
+      "I wasn't ready. Not the way you're supposed to be ready — calm, rested, confident. I came to Pune knowing what was at stake, and the closer the date got, the louder everything became.",
+    slug: 'my-last-ten-days',
+    published: true,
+  },
   {
     id: 1,
     title: 'On Stillness and Motion',
@@ -11,6 +21,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'There is a paradox at the heart of animation — the most powerful moments are often the ones where nothing moves. A held frame. A breath before the cut.',
     slug: 'on-stillness-and-motion',
+    published: false,
   },
   {
     id: 2,
@@ -20,6 +31,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'Every palette is a mood before it is an aesthetic. Watching old films without sound teaches you how much the colour grader is the second director.',
     slug: 'cinema-and-colour',
+    published: false,
   },
   {
     id: 3,
@@ -29,6 +41,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'Before any frame is rendered, before any camera rolls, there is always a pen and a notebook. The sketchbook is where the real work happens.',
     slug: 'the-sketchbook-ritual',
+    published: false,
   },
   {
     id: 4,
@@ -38,6 +51,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'I started singing before I started animating. Looking back, they are the same discipline — both about shaping invisible things into something felt.',
     slug: 'sound-as-visual-language',
+    published: false,
   },
   {
     id: 5,
@@ -47,6 +61,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'Sometimes the bravest creative decision is deleting everything. A blank timeline is not failure — it is the first honest frame.',
     slug: 'on-starting-over',
+    published: false,
   },
   {
     id: 6,
@@ -56,6 +71,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'Every story is a building. Some have grand facades and empty rooms. The ones that last are built from the inside out — structure first, beauty second.',
     slug: 'architecture-of-a-story',
+    published: false,
   },
 ];
 
@@ -82,10 +98,12 @@ function JournalCard({ entry, index }) {
     return () => observer.disconnect();
   }, [index]);
 
+  const href = `/journal/${entry.slug}`;
+
   return (
     <article
       ref={cardRef}
-      className="journal-card reveal-up"
+      className={`journal-card reveal-up${entry.published ? ' journal-card--published' : ''}`}
       aria-label={`Journal entry: ${entry.title}`}
     >
       <div className="journal-card-meta">
@@ -94,13 +112,19 @@ function JournalCard({ entry, index }) {
       </div>
       <h2 className="journal-card-title">{entry.title}</h2>
       <p className="journal-card-excerpt">{entry.excerpt}</p>
-      <a
-        href={`/journal/${entry.slug}`}
-        className="journal-card-link"
-        aria-label={`Read more about ${entry.title}`}
-      >
-        Read More <span aria-hidden="true">→</span>
-      </a>
+      {entry.published ? (
+        <Link
+          to={href}
+          className="journal-card-link"
+          aria-label={`Read ${entry.title}`}
+        >
+          Read Entry <span aria-hidden="true">→</span>
+        </Link>
+      ) : (
+        <span className="journal-card-link journal-card-link--soon" aria-label="Coming soon">
+          Coming Soon
+        </span>
+      )}
     </article>
   );
 }
