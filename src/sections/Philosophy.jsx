@@ -21,7 +21,7 @@ const STAGGER = 0.15;
 
 // ── Single reusable line component ───────────────────────────────────────────
 function PhiLine({ text, index }) {
-  const ref    = useRef(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-5% 0px' });
 
   return (
@@ -35,15 +35,23 @@ function PhiLine({ text, index }) {
           ? { opacity: 1, y: 0, filter: 'blur(0px)' }
           : { opacity: 0, y: 30, filter: 'blur(10px)' }
       }
-      transition={{ duration: 0.85, delay: index * STAGGER, ease: EASE }}
+      transition={{
+        duration: 0.85,
+        delay: index * STAGGER,
+        ease: EASE,
+      }}
       // Hover: slight brightness + scale 1.015, no color change
-      whileHover={{ scale: 1.015, color: '#FFFFFF' }}
+      whileHover={{
+        scale: 1.015,
+        color: '#FFFFFF',
+      }}
       style={{
-        willChange:   'opacity, transform, filter',
-        originX:      0,           // scale from left edge
-        originY:      0.5,
-        margin:       0,
-        padding:      0,
+        willChange: 'opacity, transform, filter',
+        originX: 0,
+        originY: 0.5,
+        margin: 0,
+        padding: 0,
+        fontWeight: 600, // ← Changed from Bold to SemiBold
       }}
     >
       {text}
@@ -54,11 +62,19 @@ function PhiLine({ text, index }) {
 // ── Section ───────────────────────────────────────────────────────────────────
 export default function Philosophy() {
   return (
-    <section id="philosophy" className="philosophy-section" aria-label="Creative identity">
+    <section
+      id="philosophy"
+      className="philosophy-section"
+      aria-label="Creative identity"
+    >
       <div className="philosophy-inner">
         <div className="philosophy-manifesto" role="list">
           {LINES.map((text, i) => (
-            <PhiLine key={text} text={text} index={i} />
+            <PhiLine
+              key={text}
+              text={text}
+              index={i}
+            />
           ))}
         </div>
       </div>
