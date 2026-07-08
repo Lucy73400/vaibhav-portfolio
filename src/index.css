@@ -506,138 +506,94 @@ section {
 .vis-ml { left: 4vw; }
 .vis-mr { right: 4vw; }
 
-/* --- PHILOSOPHY SECTION ─────────────────────────────────────────────────── */
+/* --- PHILOSOPHY / CREATIVE IDENTITY ────────────────────────────────────── */
+
+/*
+  Layout: full-viewport-height, vertically centered, left-aligned.
+  Typography: single unified spec — no hierarchy between lines.
+  All 9 lines: same size, weight, spacing, opacity, alignment.
+*/
+
 .philosophy-section {
   background: var(--bg-dark);
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Full screen section */
-  padding: 12vh 8vw;
+  /* Left-aligned with generous left margin */
+  padding: 12vh 8vw 12vh 10vw;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .philosophy-inner {
-  max-width: 800px; /* 700-800px maximum */
+  max-width: 800px;   /* 700–800px spec */
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.philosophy-title {
-  font-family: var(--font-display);
-  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.35);
-  margin-bottom: 8vh; /* Generous negative space below title */
-  text-align: center;
-}
-
-.philosophy-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Flat manifesto — one continuous column, no groups */
 .philosophy-manifesto {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.phi-group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* ── THE ONLY phi-line rule — applied identically to all 9 lines ── */
 .phi-line {
-  font-family: var(--font-philosophy);
-  font-size: 28px;
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.6;
-  letter-spacing: -0.02em;
-  color: #F4F4F4; /* Soft white */
-  text-align: center;
+  /* Font stack: Neue Montreal → Inter Tight → Inter → system-ui (Apple feel) */
+  font-family: var(--font-display);
+  /* Desktop: 72–88px */
+  font-size: clamp(2.5rem, 6.1vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-feature-settings: "kern" 1;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  /* Uniform color — same on every line */
+  color: #F4F4F4;
+  /* Equal spacing between every line — compact editorial rhythm */
+  margin: 0 0 0.2em 0;
+  cursor: default;
   will-change: opacity, transform, filter;
 }
 
-/* First group: observation lines have clean default gaps */
-.phi-group--obs .phi-line {
-  margin-bottom: 0.8rem;
-}
-.phi-group--obs .phi-line:last-child {
+.phi-line:last-child {
   margin-bottom: 0;
 }
 
-/* Emotional turning point */
-.phi-group--focus {
-  margin-top: 4.5rem; /* Blank line pacing spacing */
-  margin-bottom: 4.5rem;
+/* ── Hover transition — defined in CSS, Framer Motion overrides for scale ── */
+.phi-line {
+  transition: color 0.25s ease;
 }
 
-.phi-line--focus {
-  font-size: 48px; /* Increased font size */
-  font-weight: 600; /* Increased weight for emphasis */
-  color: #FFF; /* Pure white contrast */
-}
-
-/* Final group: declarations with generous bottom margin between lines */
-.phi-group--dec .phi-line {
-  margin-bottom: 1.8rem;
-}
-.phi-group--dec .phi-line:last-child {
-  margin-bottom: 0;
-}
-
-/* Tablet Layout Sizing */
+/* ── Tablet: 56–68px ── */
 @media (max-width: 991px) {
   .philosophy-section {
-    padding: 10vh 8vw;
+    padding: 10vh 7vw 10vh 8vw;
   }
+
   .phi-line {
-    font-size: 22px;
-  }
-  .phi-line--focus {
-    font-size: 38px;
-  }
-  .phi-group--focus {
-    margin-top: 3.5rem;
-    margin-bottom: 3.5rem;
-  }
-  .phi-group--dec .phi-line {
-    margin-bottom: 1.4rem;
+    font-size: clamp(2.2rem, 7vw, 4.25rem);
+    margin-bottom: 0.18em;
   }
 }
 
-/* Mobile Layout Sizing */
-@media (max-width: 768px) {
+/* ── Mobile: 36–48px ── */
+@media (max-width: 576px) {
   .philosophy-section {
     padding: 8vh 6vw;
+    min-height: auto;
+    align-items: flex-start;
   }
-  .philosophy-title {
-    margin-bottom: 6vh;
+
+  .philosophy-inner {
+    max-width: 100%;
   }
+
   .phi-line {
-    font-size: 18px;
-    line-height: 1.5;
-  }
-  .phi-line--focus {
-    font-size: 28px;
-  }
-  .phi-group--focus {
-    margin-top: 2.8rem;
-    margin-bottom: 2.8rem;
-  }
-  .phi-group--dec .phi-line {
-    margin-bottom: 1.1rem;
+    font-size: clamp(1.8rem, 9vw, 3rem);
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+    margin-bottom: 0.15em;
   }
 }
 
