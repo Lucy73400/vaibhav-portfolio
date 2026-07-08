@@ -24,7 +24,7 @@ export default function Hero({ introState }) {
       <motion.div
         className="hero-artwork"
         aria-hidden="true"
-        initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
+        initial={{ opacity: 0, scale: 1.05, filter: 'blur(0px)' }}
         animate={{
           opacity: visible ? 1 : 0,
           scale:   visible ? 1 : 1.05,
