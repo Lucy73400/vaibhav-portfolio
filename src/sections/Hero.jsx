@@ -1,14 +1,17 @@
 import { motion } from 'framer-motion';
-import heroImage from '../assets/hero.png';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
+
+// External background artwork — no local import needed, no bundler processing
+const BG_IMAGE = 'https://i.ibb.co/gFrTSQ49/Chat-GPT-Image-Jul-9-2026-02-31-20-AM.png';
 
 export default function Hero({ introState }) {
   const visible = introState !== 'logo-reveal';
 
   return (
     <section id="hero" aria-label="Hero introduction">
-      {/* ── Background texture ── */}
+
+      {/* ── Dark background texture ── */}
       <motion.div
         className="hero-bg"
         aria-hidden="true"
@@ -17,86 +20,83 @@ export default function Hero({ introState }) {
         transition={{ duration: 1.8, ease: EASE_CINEMATIC }}
       />
 
-      {/* ── Two-column layout ── */}
-      <div className="hero-layout">
+      {/* ── Background artwork — fades in first, sits behind all content ── */}
+      <motion.div
+        className="hero-artwork"
+        aria-hidden="true"
+        initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
+        animate={{
+          opacity: visible ? 1 : 0,
+          scale:   visible ? 1 : 1.05,
+          filter:  visible ? 'blur(0px)' : 'blur(10px)',
+        }}
+        transition={{ duration: 1.5, delay: 0.3, ease: EASE_CINEMATIC }}
+        style={{ willChange: 'transform, opacity, filter' }}
+      >
+        <img
+          src={BG_IMAGE}
+          alt=""
+          className="hero-artwork-img"
+          loading="eager"
+          draggable="false"
+        />
+        {/* All-edge vignette fade */}
+        <div className="hero-artwork-vignette" aria-hidden="true" />
+      </motion.div>
 
-        {/* ── LEFT — identity & typography ── */}
-        <div className="hero-content">
-          {/* VAIBHAV */}
-          <motion.h1
-            className="hero-name-label"
-            initial={{ opacity: 0, filter: 'blur(15px)', y: 15 }}
-            animate={{
-              opacity: visible ? 1 : 0,
-              filter:  visible ? 'blur(0px)' : 'blur(15px)',
-              y:       visible ? 0 : 15,
-            }}
-            transition={{ duration: 1.6, delay: 0.8, ease: EASE_CINEMATIC }}
-            style={{ willChange: 'transform, opacity, filter' }}
-          >
-            VAIBHAV
-          </motion.h1>
+      {/* ── Centered text content — unchanged from original ── */}
+      <div className="hero-content">
 
-          {/* Disciplines */}
-          <motion.div
-            className="hero-disciplines"
-            aria-label="Creative disciplines"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
-            transition={{ duration: 1.4, delay: 1.1, ease: EASE_CINEMATIC }}
-            style={{ willChange: 'transform, opacity' }}
-          >
-            <span className="discipline-tag">Animator</span>
-            <span className="discipline-separator" aria-hidden="true">•</span>
-            <span className="discipline-tag">Illustrator</span>
-            <span className="discipline-separator" aria-hidden="true">•</span>
-            <span className="discipline-tag">Storyteller</span>
-            <span className="discipline-separator" aria-hidden="true">•</span>
-            <span className="discipline-tag">Visual Creator</span>
-          </motion.div>
-
-          {/* Quote */}
-          <motion.blockquote
-            className="hero-quote-block"
-            initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
-            animate={{
-              opacity: visible ? 1 : 0,
-              y:       visible ? 0 : 15,
-              filter:  visible ? 'blur(0px)' : 'blur(5px)',
-            }}
-            transition={{ duration: 1.6, delay: 1.4, ease: EASE_CINEMATIC }}
-            style={{ willChange: 'transform, opacity, filter' }}
-          >
-            <p className="hero-quote-text">
-              "We're not copying life, we're making a comment on it."
-            </p>
-            <cite className="hero-quote-author">— Richard Williams</cite>
-          </motion.blockquote>
-        </div>
-
-        {/* ── RIGHT — hero image ── */}
-        <motion.div
-          className="hero-image-wrap"
-          aria-hidden="true"
-          initial={{ opacity: 0, scale: 1.03, filter: 'blur(8px)' }}
+        {/* VAIBHAV */}
+        <motion.h1
+          className="hero-name-label"
+          initial={{ opacity: 0, filter: 'blur(15px)', y: 15 }}
           animate={{
             opacity: visible ? 1 : 0,
-            scale:   visible ? 1 : 1.03,
-            filter:  visible ? 'blur(0px)' : 'blur(8px)',
+            filter:  visible ? 'blur(0px)' : 'blur(15px)',
+            y:       visible ? 0 : 15,
           }}
-          transition={{ duration: 1.4, delay: 1.3, ease: EASE_CINEMATIC }}
+          transition={{ duration: 1.6, delay: 0.8, ease: EASE_CINEMATIC }}
           style={{ willChange: 'transform, opacity, filter' }}
         >
-          <img
-            src={heroImage}
-            alt="Vaibhav Khule — Animator and Visual Creator"
-            className="hero-image"
-            loading="eager"
-            draggable="false"
-          />
-          {/* Edge fade — blends image into dark background */}
-          <div className="hero-image-fade" aria-hidden="true" />
+          VAIBHAV
+        </motion.h1>
+
+        {/* Disciplines */}
+        <motion.div
+          className="hero-disciplines"
+          aria-label="Creative disciplines"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
+          transition={{ duration: 1.4, delay: 1.1, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'transform, opacity' }}
+        >
+          <span className="discipline-tag">Animator</span>
+          <span className="discipline-separator" aria-hidden="true">•</span>
+          <span className="discipline-tag">Illustrator</span>
+          <span className="discipline-separator" aria-hidden="true">•</span>
+          <span className="discipline-tag">Storyteller</span>
+          <span className="discipline-separator" aria-hidden="true">•</span>
+          <span className="discipline-tag">Visual Creator</span>
         </motion.div>
+
+        {/* Quote */}
+        <motion.blockquote
+          className="hero-quote-block"
+          initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
+          animate={{
+            opacity: visible ? 1 : 0,
+            y:       visible ? 0 : 15,
+            filter:  visible ? 'blur(0px)' : 'blur(5px)',
+          }}
+          transition={{ duration: 1.6, delay: 1.4, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'transform, opacity, filter' }}
+        >
+          <p className="hero-quote-text">
+            "We're not copying life, we're making a comment on it."
+          </p>
+          <cite className="hero-quote-author">— Richard Williams</cite>
+        </motion.blockquote>
 
       </div>
 
@@ -110,6 +110,7 @@ export default function Hero({ introState }) {
       >
         <div className="scroll-line" />
       </motion.div>
+
     </section>
   );
 }

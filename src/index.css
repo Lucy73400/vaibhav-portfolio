@@ -277,47 +277,81 @@ nav.scrolled {
   min-height: 640px;
   background: var(--bg-dark);
   display: flex;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding: 0;
+  padding: 0 8vw;
 }
 
-/* Background — shifted right so the glow sits behind the image */
+/* Dark radial texture — sits above the artwork, below the text */
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 80% at 72% 50%, #161616 0%, #000 65%);
+  background: radial-gradient(circle at 50% 50%, #151515 0%, #000 70%);
   z-index: 1;
 }
 
-/* ── Two-column layout wrapper ── */
-.hero-layout {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  /* Left text col is narrower than right image col */
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
+/* ── Background artwork container ── */
+.hero-artwork {
+  position: absolute;
+  inset: 0;
+  z-index: 2;               /* above bg texture, below all text */
+  pointer-events: none;
+  will-change: transform, opacity, filter;
 }
 
-/* ── LEFT — text content ── */
+.hero-artwork-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;      /* preserve full composition, no cropping */
+  object-position: center center;
+  opacity: 0.2;             /* atmospheric, never competing with text */
+  filter: saturate(0.7) contrast(1.05);
+  user-select: none;
+  pointer-events: none;
+}
+
+/*
+  All-edge vignette: pulls the image into the black background
+  so it reads as atmosphere rather than a placed asset.
+  Layered gradients — each handles one edge independently.
+*/
+.hero-artwork-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    /* top */
+    linear-gradient(to bottom, #000 0%,         transparent 35%),
+    /* bottom */
+    linear-gradient(to top,    #000 0%,         transparent 35%),
+    /* left */
+    linear-gradient(to right,  #000 0%,         transparent 30%),
+    /* right */
+    linear-gradient(to left,   #000 0%,         transparent 30%),
+    /* center radial darkening — keeps the middle slightly dimmed */
+    radial-gradient(ellipse 90% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+
+/* ── Centered text content ── */
 .hero-content {
-  padding: 0 5vw 0 8vw;
+  position: relative;
+  z-index: 3;               /* always above artwork */
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
 }
 
 /* VAIBHAV — Framer Motion drives opacity + blur + y */
 .hero-name-label {
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 8.5vw, 7.5rem);
+  font-size: clamp(3rem, 11vw, 8rem);
   font-weight: 900;
-  line-height: 0.92;
-  letter-spacing: -0.02em;
+  line-height: 0.95;
+  letter-spacing: -0.015em;
   color: var(--text-light);
   margin: 0;
   will-change: transform, opacity, filter;
@@ -329,102 +363,57 @@ nav.scrolled {
   align-items: center;
   gap: 1.2rem;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   font-family: var(--font-display);
-  font-size: clamp(0.58rem, 1vw, 0.72rem);
+  font-size: clamp(0.6rem, 1.1vw, 0.75rem);
   font-weight: 500;
   color: var(--accent-beige);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  margin: 2rem 0 0;
+  margin: 2.2rem 0 0;
   will-change: transform, opacity;
 }
 
 /* Quote */
 .hero-quote-block {
-  margin-top: 2.6rem;
+  margin-top: 2.8rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.55rem;
-  padding-top: 2rem;
+  padding-top: 2.2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  max-width: 460px;
+  max-width: 700px;
   will-change: transform, opacity, filter;
 }
 
 .hero-quote-text {
   font-family: var(--font-display);
-  font-size: clamp(0.88rem, 1.2vw, 1.1rem);
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
   font-weight: 500;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.52);
-  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.6;
   letter-spacing: -0.01em;
   margin: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-quote-author {
   font-family: var(--font-display);
-  font-size: clamp(0.58rem, 0.7vw, 0.68rem);
+  font-size: clamp(0.6rem, 0.75vw, 0.72rem);
   font-weight: 400;
   font-style: normal;
   letter-spacing: 0.18em;
   color: var(--accent-beige);
   text-transform: uppercase;
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 /* Legacy CSS fallback; Framer Motion is primary driver */
 .hero-content.animate-in .hero-name-label {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* ── RIGHT — hero image ── */
-.hero-image-wrap {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  overflow: hidden;
-  will-change: transform, opacity, filter;
-}
-
-.hero-image {
-  display: block;
-  height: 100%;
-  width: 100%;
-  /* Cover the column but keep the subject centred */
-  object-fit: cover;
-  object-position: center top;
-  user-select: none;
-  pointer-events: none;
-  /* Subtle contrast lift */
-  filter: contrast(1.04) brightness(0.97);
-}
-
-/*
-  Edge-fade overlay: fades all four edges into #000
-  so the image blends seamlessly into the dark layout.
-*/
-.hero-image-fade {
-  position: absolute;
-  inset: 0;
-  background:
-    /* left fade — blends into text column */
-    linear-gradient(to right,  #000 0%, transparent 28%),
-    /* right fade */
-    linear-gradient(to left,   #000 0%, transparent 18%),
-    /* top fade */
-    linear-gradient(to bottom, #000 0%, transparent 22%),
-    /* bottom fade */
-    linear-gradient(to top,    #000 0%, transparent 22%);
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* ── Scroll indicator ── */
@@ -451,74 +440,26 @@ nav.scrolled {
   50%       { opacity: 1;   transform: scaleY(1.2); transform-origin: top; }
 }
 
-/* ── Tablet — reduce image proportion ── */
+/* ── Tablet ── */
 @media (max-width: 1024px) {
-  .hero-layout {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-
-  .hero-name-label {
-    font-size: clamp(2.8rem, 9vw, 6rem);
-  }
-
-  .hero-quote-block {
-    max-width: 380px;
+  .hero-artwork-img {
+    opacity: 0.18;
   }
 }
 
-/* ── Mobile — vertical stack ── */
+/* ── Mobile — reduce opacity further for readability ── */
 @media (max-width: 768px) {
   #hero {
-    height: auto;
-    min-height: 100svh;
-    padding-bottom: 6rem;
-  }
-
-  .hero-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    align-items: start;
-    padding-top: 12vh;
-    gap: 3rem;
-  }
-
-  .hero-content {
     padding: 0 6vw;
-    align-items: flex-start;
-    order: 1;
   }
 
-  .hero-image-wrap {
-    order: 2;
-    height: 56vw;
-    min-height: 240px;
-    max-height: 420px;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .hero-image {
-    object-position: center 15%;
-  }
-
-  .hero-image-fade {
-    background:
-      linear-gradient(to right,  #000 0%, transparent 12%),
-      linear-gradient(to left,   #000 0%, transparent 12%),
-      linear-gradient(to bottom, #000 0%, transparent 18%),
-      linear-gradient(to top,    #000 0%, transparent 18%);
+  .hero-artwork-img {
+    opacity: 0.14;
+    object-fit: cover;      /* on small screens cover fills better */
   }
 
   .hero-quote-block {
     max-width: 100%;
-  }
-
-  .hero-disciplines {
-    gap: 0.9rem;
-  }
-
-  .hero-scroll {
-    display: none;
   }
 }
 

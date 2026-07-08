@@ -15,13 +15,12 @@ const JOURNAL_ENTRIES = [
   },
   {
     id: 1,
-    title: 'On Stillness and Motion',
-    date: 'June 14, 2026',
+    title: 'Something creative',
+    date: 'July 12, 2026',
     time: '05 min',
     category: 'Creative Notes',
     excerpt:
-      'There is a paradox at the heart of animation — the most powerful moments are often the ones where nothing moves. A held frame. A breath before the cut.',
-    slug: 'on-stillness-and-motion',
+      'Something cool is coming',
     published: false,
   },
   {
