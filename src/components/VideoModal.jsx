@@ -1,92 +1,96 @@
 /**
- * VideoModal.jsx — Cinematic fullscreen video overlay
+ * VideoModal.jsx — Cinematic fullscreen overlay
+ *
+ * APPROACH — single video element, DOM transplant
+ * ──────────────────────────────────────────────
+ * Instead of creating a second <video> that must reload the CloudFront file,
+ * we physically move the existing <video> node (owned by Atmospheric) into this
+ * overlay when opening, and move it back when closing.
+ *
+ * Benefits:
+ *   • Zero reload — same buffered data, same network connection
+ *   • Zero timestamp jump — currentTime is untouched by the move
+ *   • Instant audio — we just set .muted = false on the existing element
+ *   • Zero memory leak — only one MediaSource instance ever exists
  *
  * Props:
- *   isOpen     boolean   — controls visibility
- *   onClose    fn        — called when the overlay is dismissed
- *   startTime  number    — optional timestamp (seconds) to seek to on open
- *
- * Design rules:
- *   • Framer Motion AnimatePresence for enter/exit
- *   • Native HTML5 <video> — no third-party player libs
- *   • <source> injected only on first open — no pre-fetch before needed
- *   • Starts playing from startTime when provided (timestamp sync)
- *   • Audio enabled in fullscreen modal (muted = false by default)
- *   • Gold accent system (--gold, --gold-hairline)
- *   • Keyboard: Escape closes, Space toggles, ←/→ seek, M mute, F fullscreen
- *   • Restores body scroll on unmount
+ *   isOpen    boolean      — show/hide the overlay
+ *   onClose   fn           — dismiss handler
+ *   videoRef  React ref    — ref to the <video> owned by Atmospheric
  */
 
 import { useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
-const SHOWREEL_URL   = 'https://dfg6l33mt2won.cloudfront.net/assasians-creed.mp4';
-const POSTER_URL     = 'https://i.ibb.co/0yPxpNDd/IMG-6261.png';
 
-export default function VideoModal({ isOpen, onClose, startTime = 0 }) {
-  const videoRef  = useRef(null);
-  const srcLoaded = useRef(false);
+export default function VideoModal({ isOpen, onClose, videoRef }) {
+  const slotRef      = useRef(null);   // the <div> inside the modal that receives the <video>
+  const wasPlayingRef = useRef(false); // track play state for restore
 
-  /* ── Lock / restore body scroll ── */
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
-
-  /* ── Source injection, timestamp seek, autoplay ─────────────────────────
-     <source> appended once — prevents browser download-dialog behaviour.
-     When startTime > 0 (coming from the inline player) we seek there so
-     the viewer continues from exactly where the inline reel left off.
+  /* ── Transplant logic ─────────────────────────────────────────────────────
+     open  → move <video> from #vis-video-slot into .vmodal-video-slot
+             set muted=false, loop=false, controls=true, play()
+     close → move <video> back into #vis-video-slot
+             set muted=true, loop=true, controls=false, play() (resume inline)
   ──────────────────────────────────────────────────────────────────────── */
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const video   = videoRef?.current;
+    const slot    = slotRef.current;
+    const origin  = document.getElementById('vis-video-slot');
 
-    if (isOpen) {
-      if (!srcLoaded.current) {
-        const source = document.createElement('source');
-        source.src   = SHOWREEL_URL;
-        source.type  = 'video/mp4';
-        video.appendChild(source);
-        video.load();
-        srcLoaded.current = true;
+    if (!video || !origin) return;
+
+    if (isOpen && slot) {
+      // Remember whether it was playing (it always should be, but be safe)
+      wasPlayingRef.current = !video.paused;
+
+      // Move into modal slot
+      slot.appendChild(video);
+
+      // Fullscreen mode: unmute, show controls, stop looping
+      video.muted    = false;
+      video.loop     = false;
+      video.controls = true;
+      video.classList.remove('vis-video');
+      video.classList.add('vmodal-video-transplanted');
+
+      // Try unmuted play; if browser blocks, fall back to muted
+      video.play().catch(() => {
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+
+    } else if (!isOpen) {
+      // Only restore if the video is currently in the modal slot
+      if (slot && slot.contains(video)) {
+        // Move back into inline container
+        origin.insertBefore(video, origin.firstChild);
       }
 
-      // Seek to timestamp, then play
-      const attemptPlay = () => {
-        if (startTime > 0) {
-          video.currentTime = startTime;
-        }
-        // Audio on in fullscreen modal — unmute
-        video.muted = false;
-        video.play().catch(() => {
-          // Autoplay policy — fallback to muted play
-          video.muted = true;
-          video.play().catch(() => {});
-        });
-      };
+      // Restore inline mode: mute, hide controls, loop
+      video.muted    = true;
+      video.loop     = true;
+      video.controls = false;
+      video.classList.remove('vmodal-video-transplanted');
+      video.classList.add('vis-video');
 
-      // If metadata already loaded, seek immediately; otherwise wait
-      if (video.readyState >= 1) {
-        attemptPlay();
-      } else {
-        video.addEventListener('loadedmetadata', attemptPlay, { once: true });
-      }
-    } else {
-      video.pause();
-      video.muted = true;
+      // Resume inline playback
+      video.play().catch(() => {});
+
+      // Restore body scroll
+      document.body.style.overflow = '';
     }
-  }, [isOpen, startTime]);
+  }, [isOpen, videoRef]);
 
   /* ── Keyboard shortcuts ── */
   const handleKeyDown = useCallback((e) => {
     if (!isOpen) return;
-    const video = videoRef.current;
+    const video = videoRef?.current;
 
     switch (e.key) {
       case 'Escape':
@@ -107,28 +111,27 @@ export default function VideoModal({ isOpen, onClose, startTime = 0 }) {
       case 'M':
         if (video) video.muted = !video.muted;
         break;
-      case 'f':
-      case 'F':
-        if (!video) break;
-        if (document.fullscreenElement) {
-          document.exitFullscreen?.();
-        } else {
-          video.requestFullscreen?.();
-        }
-        break;
       default:
         break;
     }
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, videoRef]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  return (
+  /* ── Cleanup on unmount ── */
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
+        /* Backdrop */
         <motion.div
           className="vmodal-backdrop"
           aria-modal="true"
@@ -138,17 +141,19 @@ export default function VideoModal({ isOpen, onClose, startTime = 0 }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{    opacity: 0 }}
-          transition={{ duration: 0.5, ease: EASE_CINEMATIC }}
+          transition={{ duration: 0.4, ease: EASE_CINEMATIC }}
         >
+          {/* Inner container — stops click-through to backdrop */}
           <motion.div
             className="vmodal-container"
             onClick={(e) => e.stopPropagation()}
-            initial={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, scale: 1,    filter: 'blur(0px)' }}
-            exit={{    opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-            transition={{ duration: 0.55, ease: EASE_CINEMATIC }}
-            style={{ willChange: 'transform, opacity, filter' }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1    }}
+            exit={{    opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.4, ease: EASE_CINEMATIC }}
+            style={{ willChange: 'transform, opacity' }}
           >
+            {/* Close button */}
             <button
               className="vmodal-close"
               onClick={onClose}
@@ -157,26 +162,26 @@ export default function VideoModal({ isOpen, onClose, startTime = 0 }) {
               <span aria-hidden="true">✕</span>
             </button>
 
-            <video
-              ref={videoRef}
-              className="vmodal-video"
-              poster={POSTER_URL}
-              controls
-              playsInline
-              preload="metadata"
-              crossOrigin="anonymous"
+            {/*
+              This div receives the <video> node via DOM transplant in useEffect.
+              It must be rendered before useEffect runs (which it is, because
+              AnimatePresence renders it synchronously on isOpen → true).
+            */}
+            <div
+              ref={slotRef}
+              className="vmodal-video-slot"
               aria-label="Showreel video"
-            >
-              Your browser does not support HTML5 video.
-            </video>
+            />
 
+            {/* Bottom meta */}
             <div className="vmodal-meta" aria-hidden="true">
               <span className="vmodal-meta-label">SHOWREEL</span>
-              <span className="vmodal-meta-hint">ESC · SPACE · ←/→ · M · F</span>
+              <span className="vmodal-meta-hint">ESC · SPACE · ←/→ · M</span>
             </div>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
