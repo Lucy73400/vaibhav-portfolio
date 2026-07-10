@@ -2028,3 +2028,210 @@ select:focus {
 #collaborate {
   border-top-color: var(--gold-hairline);
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHOWREEL BUTTON (Hero)
+═══════════════════════════════════════════════════════════════════════════ */
+
+.hero-showreel-btn {
+  /* Sits below the quote, same center alignment */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 2.8rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: none;          /* custom cursor handles pointer */
+  position: relative;
+}
+
+/* Pill outline */
+.hero-showreel-btn::before {
+  content: '';
+  position: absolute;
+  inset: -0.7rem -1.4rem;
+  border: 1px solid var(--gold-hairline);
+  border-radius: 2px;
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow   0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-showreel-btn:hover::before {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 24px var(--gold-subtle);
+}
+
+/* Play icon circle */
+.hero-showreel-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-hairline);
+  font-size: 0.58rem;
+  color: var(--gold);
+  /* Nudge play triangle optically right */
+  padding-left: 2px;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  flex-shrink: 0;
+}
+
+.hero-showreel-btn:hover .hero-showreel-icon {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg-dark);
+}
+
+/* Label */
+.hero-showreel-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.35s ease;
+}
+
+.hero-showreel-btn:hover .hero-showreel-label {
+  color: var(--text-light);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VIDEO MODAL
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Backdrop ── */
+.vmodal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 4vw;
+  /* Backdrop click handled in JSX */
+  cursor: none;
+}
+
+/* ── Container ── */
+.vmodal-container {
+  position: relative;
+  width: 100%;
+  max-width: 1160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  cursor: none;
+}
+
+/* ── Close button — top right corner ── */
+.vmodal-close {
+  position: absolute;
+  top: -3.2rem;
+  right: 0;
+  background: transparent;
+  border: 1px solid var(--gold-hairline);
+  border-radius: 2px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+
+.vmodal-close span {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.3s;
+  line-height: 1;
+}
+
+.vmodal-close:hover {
+  border-color: var(--gold-dim);
+  background: var(--gold-subtle);
+}
+
+.vmodal-close:hover span {
+  color: var(--gold);
+}
+
+/* ── Native video element ── */
+.vmodal-video {
+  display: block;
+  width: 100%;
+  /* Preserve 16:9 without stretching */
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 2px;
+  /* Gold hairline frame — barely visible, adds cinematic depth */
+  outline: 1px solid var(--gold-hairline);
+  /* GPU-friendly */
+  will-change: opacity;
+}
+
+/* Browser default controls — tint handled by accent-color */
+.vmodal-video::-webkit-media-controls-panel {
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+}
+
+/* Chromium accent-color for range inputs inside video controls */
+.vmodal-video {
+  accent-color: var(--gold);
+}
+
+/* ── Bottom meta row ── */
+.vmodal-meta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.2rem;
+}
+
+.vmodal-meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.vmodal-meta-hint {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .vmodal-backdrop {
+    padding: 2vh 3vw;
+    align-items: flex-end;
+  }
+
+  .vmodal-container {
+    max-width: 100%;
+    gap: 1rem;
+  }
+
+  .vmodal-close {
+    top: -2.8rem;
+  }
+
+  .vmodal-meta-hint {
+    display: none;
+  }
+
+  .hero-showreel-btn {
+    margin-top: 2.2rem;
+  }
+}

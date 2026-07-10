@@ -1,8 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-export default function Atmospheric() {
-  const containerRef = useRef(null);
-
+export default function Atmospheric({ onShowreel }) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -32,7 +30,11 @@ export default function Atmospheric() {
         <div className="vis-col" />
       </div>
       <div className="vis-overlay" aria-hidden="true" />
-      <button className="vis-play" aria-label="Play reel">
+      <button
+        className="vis-play"
+        aria-label="Play showreel"
+        onClick={onShowreel}
+      >
         <span aria-hidden="true">▶</span>
       </button>
       <div className="vis-ml" aria-hidden="true">01:45:22</div>

@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
 
-// External background artwork — new image
+// External background artwork
 const BG_IMAGE = 'https://i.ibb.co/DDYCNnNb/Chat-GPT-Image-Jul-9-2026-02-59-17-AM.png';
 
-export default function Hero({ introState }) {
+export default function Hero({ introState, onShowreel }) {
   const visible = introState !== 'logo-reveal';
 
   return (
@@ -24,7 +24,7 @@ export default function Hero({ introState }) {
       <motion.div
         className="hero-artwork"
         aria-hidden="true"
-        initial={{ opacity: 0, scale: 1.05, filter: 'blur(0px)' }}
+        initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
         animate={{
           opacity: visible ? 1 : 0,
           scale:   visible ? 1 : 1.05,
@@ -40,11 +40,10 @@ export default function Hero({ introState }) {
           loading="eager"
           draggable="false"
         />
-        {/* All-edge vignette fade */}
         <div className="hero-artwork-vignette" aria-hidden="true" />
       </motion.div>
 
-      {/* ── Centered text content — unchanged from original ── */}
+      {/* ── Centered text content ── */}
       <div className="hero-content">
 
         {/* VAIBHAV */}
@@ -97,6 +96,20 @@ export default function Hero({ introState }) {
           </p>
           <cite className="hero-quote-author">— Richard Williams</cite>
         </motion.blockquote>
+
+        {/* SHOWREEL button — reveals last, after the quote */}
+        <motion.button
+          className="hero-showreel-btn"
+          onClick={onShowreel}
+          aria-label="Watch showreel"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
+          transition={{ duration: 1.4, delay: 1.7, ease: EASE_CINEMATIC }}
+          style={{ willChange: 'transform, opacity' }}
+        >
+          <span className="hero-showreel-icon" aria-hidden="true">▶</span>
+          <span className="hero-showreel-label">Showreel</span>
+        </motion.button>
 
       </div>
 

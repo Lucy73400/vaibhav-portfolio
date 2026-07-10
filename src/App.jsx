@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LayoutGroup } from 'framer-motion';
 import CustomCursor from './components/CustomCursor';
 import CinematicIntro from './components/CinematicIntro';
+import VideoModal from './components/VideoModal';
 import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Philosophy from './sections/Philosophy';
@@ -26,12 +27,12 @@ function getInitialIntroState() {
 }
 
 // ─── Home Page ────────────────────────────────────────────────────────────────
-function HomePage({ introState }) {
+function HomePage({ introState, onShowreel }) {
   return (
     <main>
-      <Hero introState={introState} />
+      <Hero introState={introState} onShowreel={onShowreel} />
       <Philosophy />
-      <Atmospheric />
+      <Atmospheric onShowreel={onShowreel} />
       <Creations />
       <Portfolio />
       <Thoughts />
@@ -43,7 +44,11 @@ function HomePage({ introState }) {
 // ─── Root App ─────────────────────────────────────────────────────────────────
 function App() {
   const [introState, setIntroState] = useState(getInitialIntroState);
+  const [showreel, setShowreel]     = useState(false);
   const revealObserverRef = useRef(null);
+
+  const openShowreel  = useCallback(() => setShowreel(true),  []);
+  const closeShowreel = useCallback(() => setShowreel(false), []);
 
   // Drive the intro sequence timeline — only runs when intro hasn't completed yet
   useEffect(() => {
@@ -121,8 +126,11 @@ function App() {
 
         <Navbar introState={introState} />
 
+        {/* ── Cinematic video modal — rendered once at root level ── */}
+        <VideoModal isOpen={showreel} onClose={closeShowreel} />
+
         <Routes>
-          <Route path="/" element={<HomePage introState={introState} />} />
+          <Route path="/" element={<HomePage introState={introState} onShowreel={openShowreel} />} />
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/journal/my-last-ten-days" element={<MyLastTenDays />} />
         </Routes>
