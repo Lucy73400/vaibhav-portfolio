@@ -316,10 +316,12 @@ nav.scrolled {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;      /* preserve full composition, no cropping */
-  object-position: center center;
-  opacity: 0.2;             /* atmospheric, never competing with text */
-  filter: saturate(0.7) contrast(1.05);
+  /* Portrait orientation — cover fills the hero, anchored top so
+     the head/face is never cropped on any viewport size           */
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.22;            /* slightly higher than AI art — real portrait needs a touch more presence */
+  filter: saturate(0.55) contrast(1.08) brightness(0.88);
   user-select: none;
   pointer-events: none;
 }
@@ -468,8 +470,9 @@ nav.scrolled {
   }
 
   .hero-artwork-img {
-    opacity: 0.14;
-    object-fit: cover;      /* on small screens cover fills better */
+    opacity: 0.13;
+    object-fit: cover;
+    object-position: center top;
   }
 
   .hero-quote-block {
