@@ -312,39 +312,34 @@ nav.scrolled {
   will-change: transform, opacity, filter;
 }
 
-/* ── Background video ── */
-.hero-artwork-video {
+/* ── Background portrait image ── */
+.hero-artwork-img {
   display: block;
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  /* Cover fills the Hero completely — video crops to fit, no black bars */
   object-fit: cover;
   object-position: center center;
-  pointer-events: none;
+  opacity: 0.22;
+  /* Desaturate + slight contrast lift → cinematic silhouette */
+  filter: saturate(0.5) contrast(1.1) brightness(0.85);
   user-select: none;
+  pointer-events: none;
 }
 
 /*
-  Dark overlay + all-edge vignette — single element, two jobs:
-  1. The solid rgba layer keeps text readable over moving footage
-  2. The edge gradients pull the frame into the black background
+  All-edge vignette — pulls the portrait into the black background.
+  Keeps each edge independent so the centre stays bright enough to
+  read as a presence without overwhelming the text.
 */
-.hero-artwork-overlay {
+.hero-artwork-vignette {
   position: absolute;
   inset: 0;
   background:
-    /* Solid dark film — primary readability layer */
-    rgba(0, 0, 0, 0.52),
-    /* Top edge */
-    linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,  transparent 30%),
-    /* Bottom edge */
-    linear-gradient(to top,    rgba(0,0,0,0.65) 0%,  transparent 30%),
-    /* Left edge */
-    linear-gradient(to right,  rgba(0,0,0,0.45) 0%,  transparent 25%),
-    /* Right edge */
-    linear-gradient(to left,   rgba(0,0,0,0.45) 0%,  transparent 25%);
+    linear-gradient(to bottom, #000 0%,         transparent 32%),
+    linear-gradient(to top,    #000 0%,         transparent 32%),
+    linear-gradient(to right,  #000 0%,         transparent 28%),
+    linear-gradient(to left,   #000 0%,         transparent 28%),
+    radial-gradient(ellipse 88% 78% at 50% 50%, transparent 38%, rgba(0,0,0,0.42) 100%);
   pointer-events: none;
 }
 
@@ -458,7 +453,9 @@ nav.scrolled {
 
 /* ── Tablet ── */
 @media (max-width: 1024px) {
-  /* video background scales naturally via object-fit: cover */
+  .hero-artwork-img {
+    opacity: 0.18;
+  }
 }
 
 /* ── Mobile ── */
@@ -467,12 +464,9 @@ nav.scrolled {
     padding: 0 6vw;
   }
 
-  /* Slightly stronger overlay on mobile for readability */
-  .hero-artwork-overlay {
-    background:
-      rgba(0, 0, 0, 0.60),
-      linear-gradient(to bottom, rgba(0,0,0,0.70) 0%, transparent 28%),
-      linear-gradient(to top,    rgba(0,0,0,0.70) 0%, transparent 28%);
+  .hero-artwork-img {
+    opacity: 0.14;
+    object-position: center top; /* keep face visible on portrait screens */
   }
 
   .hero-quote-block {
@@ -523,78 +517,151 @@ section {
   transform: translateY(0);
 }
 
-/* --- VISUAL LOOP --- */
-#visual {
+/* --- SHOWREEL / VISUAL SECTION --- */
+
+/* Outer section wrapper — replaces the old #visual */
+.vis-section {
   width: 100%;
-  height: 70vh;
-  position: relative;
-  overflow: hidden;
-  padding: 0;
-}
-
-.vis-inner {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #e8e2d5, #c8bba8, #a89880);
+  background: var(--bg-dark);
+  border-top: 1px solid var(--gold-hairline);
+  padding: 12vh 8vw;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 
-.vis-col {
-  flex: 1;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+/* ── Video player wrapper ── */
+.vis-video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 16px;
+  overflow: hidden;
+  /* Cinematic shadow */
+  box-shadow:
+    0 8px 48px rgba(0, 0, 0, 0.72),
+    0 2px 12px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+  /* GPU-composite the whole wrapper */
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              filter  0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Lock the 16/9 aspect ratio so no height jump on load */
+  aspect-ratio: 16 / 9;
 }
 
-.vis-overlay {
+/* Desktop hover — subtle scale + brightness lift, no bounce */
+@media (hover: hover) {
+  .vis-video-wrap:hover {
+    transform: scale(1.02);
+    filter: brightness(1.05) contrast(1.03);
+    box-shadow:
+      0 16px 64px rgba(0, 0, 0, 0.80),
+      0 4px 20px rgba(0, 0, 0, 0.60),
+      0 0 0 1px var(--gold-hairline);
+  }
+}
+
+/* ── The video itself ── */
+.vis-video {
+  display: block;
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.65) 100%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 16px;
+  pointer-events: none;
+  user-select: none;
 }
 
-.vis-play {
+/* Thin cinematic overlay — barely dims, preserves colour fidelity */
+.vis-video-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.75);
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 18%),
+    linear-gradient(to top,    rgba(0,0,0,0.18) 0%, transparent 18%);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* ── Controls row below the player ── */
+.vis-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 3;
-  transition: background-color 0.4s, border-color 0.4s, transform 0.4s;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 0.2rem;
 }
 
-.vis-play:hover {
-  background-color: var(--text-light);
-  border-color: var(--text-light);
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
-.vis-play:hover span {
-  color: var(--bg-dark);
-}
-
-.vis-play span {
-  color: var(--text-light);
-  font-size: 0.95rem;
-  margin-left: 4px;
-  transition: color 0.4s;
-}
-
-.vis-ml, .vis-mr {
-  position: absolute;
-  bottom: 2rem;
+/* Full Screen button */
+.vis-fullscreen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: 1px solid var(--gold-hairline);
+  border-radius: 2px;
+  padding: 0.55rem 1.1rem;
+  cursor: none;
+  font-family: var(--font-mono);
   font-size: 0.52rem;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.65);
-  z-index: 3;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+  transition: color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
-.vis-ml { left: 4vw; }
-.vis-mr { right: 4vw; }
+.vis-fullscreen-btn:hover {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 16px var(--gold-subtle);
+}
+
+.vis-fullscreen-icon {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+/* Decorative meta label */
+.vis-meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.22);
+  text-transform: uppercase;
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+  .vis-section {
+    padding: 10vh 6vw;
+  }
+}
+
+@media (max-width: 576px) {
+  .vis-section {
+    padding: 8vh 4vw;
+    gap: 1.4rem;
+  }
+
+  .vis-meta-label {
+    display: none;
+  }
+
+  .vis-controls {
+    justify-content: center;
+  }
+}
 
 /* --- PHILOSOPHY / CREATIVE IDENTITY ────────────────────────────────────── */
 
@@ -2002,17 +2069,7 @@ select:focus {
     background-color 0.3s ease;
 }
 
-/* ── 18. Vis-play button — gold border on hover ───────────────────────────── */
-.vis-play:hover {
-  border-color: var(--gold);
-  background-color: var(--gold);
-}
-
-.vis-play:hover span {
-  color: var(--bg-dark);
-}
-
-/* ── 19. Section border-top hairlines → very subtle gold tint ────────────── */
+/* ── 18. Section border-top hairlines → very subtle gold tint ────────────── */
 /* Replaces the pure white rgba hairlines in key sections */
 #portfolio {
   border-top-color: var(--gold-hairline);

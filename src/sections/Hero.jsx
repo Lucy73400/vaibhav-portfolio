@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 
-const EASE_CINEMATIC  = [0.16, 1, 0.3, 1];
-const SHOWREEL_VIDEO  = 'https://dfg6l33mt2won.cloudfront.net/assasians-creed.mp4';
+const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
 
-export default function Hero({ introState, onShowreel }) {
+// Portrait — permanent Hero background artwork
+const BG_IMAGE = 'https://i.ibb.co/0yPxpNDd/IMG-6261.png';
+
+export default function Hero({ introState }) {
   const visible = introState !== 'logo-reveal';
 
   return (
@@ -18,7 +20,7 @@ export default function Hero({ introState, onShowreel }) {
         transition={{ duration: 1.8, ease: EASE_CINEMATIC }}
       />
 
-      {/* ── Background video — fades + scales in before text reveals ── */}
+      {/* ── Background portrait — fades + scales in before text reveals ── */}
       <motion.div
         className="hero-artwork"
         aria-hidden="true"
@@ -31,33 +33,18 @@ export default function Hero({ introState, onShowreel }) {
         transition={{ duration: 1.3, delay: 0.2, ease: EASE_CINEMATIC }}
         style={{ willChange: 'transform, opacity, filter' }}
       >
-        {/*
-          Native HTML5 video background.
-          autoPlay    — starts immediately, no user gesture needed on desktop
-          muted       — required for autoplay in all browsers
-          loop        — infinite cinematic loop
-          playsInline — prevents iOS from going fullscreen automatically
-          preload     — "auto" so CloudFront starts buffering on load
-          No controls, no anchor, no window.open — stays inside the page.
-        */}
-        <video
-          className="hero-artwork-video"
-          src={SHOWREEL_VIDEO}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          disablePictureInPicture
-          disableRemotePlayback
+        <img
+          src={BG_IMAGE}
+          alt=""
+          className="hero-artwork-img"
+          loading="eager"
+          draggable="false"
         />
-
-        {/* Dark overlay + all-edge vignette — keeps text readable */}
-        <div className="hero-artwork-overlay" aria-hidden="true" />
+        {/* All-edge vignette — blends portrait into dark background */}
+        <div className="hero-artwork-vignette" aria-hidden="true" />
       </motion.div>
 
-      {/* ── Centered text content — entirely unchanged ── */}
+      {/* ── Centered text content — untouched ── */}
       <div className="hero-content">
 
         {/* VAIBHAV */}

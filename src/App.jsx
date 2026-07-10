@@ -27,12 +27,12 @@ function getInitialIntroState() {
 }
 
 // ─── Home Page ────────────────────────────────────────────────────────────────
-function HomePage({ introState, onShowreel }) {
+function HomePage({ introState, onOpenFullscreen }) {
   return (
     <main>
-      <Hero introState={introState} onShowreel={onShowreel} />
+      <Hero introState={introState} />
       <Philosophy />
-      <Atmospheric onShowreel={onShowreel} />
+      <Atmospheric onOpenFullscreen={onOpenFullscreen} />
       <Creations />
       <Portfolio />
       <Thoughts />
@@ -45,10 +45,19 @@ function HomePage({ introState, onShowreel }) {
 function App() {
   const [introState, setIntroState] = useState(getInitialIntroState);
   const [showreel, setShowreel]     = useState(false);
+  const [reelStart, setReelStart]   = useState(0);
   const revealObserverRef = useRef(null);
 
-  const openShowreel  = useCallback(() => setShowreel(true),  []);
-  const closeShowreel = useCallback(() => setShowreel(false), []);
+  // Opens the fullscreen modal at a specific timestamp
+  const openFullscreen = useCallback((ts = 0) => {
+    setReelStart(ts);
+    setShowreel(true);
+  }, []);
+
+  const closeShowreel = useCallback(() => {
+    setShowreel(false);
+    setReelStart(0);
+  }, []);
 
   // Drive the intro sequence timeline — only runs when intro hasn't completed yet
   useEffect(() => {
@@ -127,10 +136,10 @@ function App() {
         <Navbar introState={introState} />
 
         {/* ── Cinematic video modal — rendered once at root level ── */}
-        <VideoModal isOpen={showreel} onClose={closeShowreel} />
+        <VideoModal isOpen={showreel} onClose={closeShowreel} startTime={reelStart} />
 
         <Routes>
-          <Route path="/" element={<HomePage introState={introState} onShowreel={openShowreel} />} />
+          <Route path="/" element={<HomePage introState={introState} onOpenFullscreen={openFullscreen} />} />
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/journal/my-last-ten-days" element={<MyLastTenDays />} />
         </Routes>

@@ -2,16 +2,16 @@
  * VideoModal.jsx — Cinematic fullscreen video overlay
  *
  * Props:
- *   isOpen   boolean  — controls visibility
- *   onClose  fn       — called when the overlay is dismissed
+ *   isOpen     boolean   — controls visibility
+ *   onClose    fn        — called when the overlay is dismissed
+ *   startTime  number    — optional timestamp (seconds) to seek to on open
  *
  * Design rules:
  *   • Framer Motion AnimatePresence for enter/exit
  *   • Native HTML5 <video> — no third-party player libs
- *   • <source> injected only on open — prevents any pre-fetch / download
- *     behaviour that can cause browsers to open the native media viewer
- *   • poster shows until the user explicitly presses Play
- *   • NO autoplay — user initiates playback
+ *   • <source> injected only on first open — no pre-fetch before needed
+ *   • Starts playing from startTime when provided (timestamp sync)
+ *   • Audio enabled in fullscreen modal (muted = false by default)
  *   • Gold accent system (--gold, --gold-hairline)
  *   • Keyboard: Escape closes, Space toggles, ←/→ seek, M mute, F fullscreen
  *   • Restores body scroll on unmount
@@ -22,13 +22,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
 const SHOWREEL_URL   = 'https://dfg6l33mt2won.cloudfront.net/assasians-creed.mp4';
-
-// The new portrait doubles as the video poster — same cinematic mood
 const POSTER_URL     = 'https://i.ibb.co/0yPxpNDd/IMG-6261.png';
 
-export default function VideoModal({ isOpen, onClose }) {
+export default function VideoModal({ isOpen, onClose, startTime = 0 }) {
   const videoRef  = useRef(null);
-  const srcLoaded = useRef(false);   // track whether <source> has been injected
+  const srcLoaded = useRef(false);
 
   /* ── Lock / restore body scroll ── */
   useEffect(() => {
@@ -40,37 +38,50 @@ export default function VideoModal({ isOpen, onClose }) {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  /* ── Source injection + pause-on-close ──────────────────────────────────
-     We deliberately do NOT set src on the <video> element directly.
-     Instead we append a <source> child the first time the modal opens.
-     This guarantees:
-       • Zero network requests until the user actually opens the modal
-       • No browser "open in media player" behaviour (that only triggers
-         when an <a href> or window.open points at a media URL — never
-         for a <video> whose src is set programmatically inside the DOM)
-       • The poster image is shown by default; the user presses Play
+  /* ── Source injection, timestamp seek, autoplay ─────────────────────────
+     <source> appended once — prevents browser download-dialog behaviour.
+     When startTime > 0 (coming from the inline player) we seek there so
+     the viewer continues from exactly where the inline reel left off.
   ──────────────────────────────────────────────────────────────────────── */
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     if (isOpen) {
-      // Inject <source> once — never re-inject on subsequent opens
       if (!srcLoaded.current) {
         const source = document.createElement('source');
-        source.src  = SHOWREEL_URL;
-        source.type = 'video/mp4';
+        source.src   = SHOWREEL_URL;
+        source.type  = 'video/mp4';
         video.appendChild(source);
-        video.load();          // prime metadata fetch, respect preload="metadata"
+        video.load();
         srcLoaded.current = true;
       }
-      // DO NOT auto-play. Poster is visible. User clicks Play.
+
+      // Seek to timestamp, then play
+      const attemptPlay = () => {
+        if (startTime > 0) {
+          video.currentTime = startTime;
+        }
+        // Audio on in fullscreen modal — unmute
+        video.muted = false;
+        video.play().catch(() => {
+          // Autoplay policy — fallback to muted play
+          video.muted = true;
+          video.play().catch(() => {});
+        });
+      };
+
+      // If metadata already loaded, seek immediately; otherwise wait
+      if (video.readyState >= 1) {
+        attemptPlay();
+      } else {
+        video.addEventListener('loadedmetadata', attemptPlay, { once: true });
+      }
     } else {
-      // Modal closed — pause and rewind so poster shows again on re-open
       video.pause();
-      video.currentTime = 0;
+      video.muted = true;
     }
-  }, [isOpen]);
+  }, [isOpen, startTime]);
 
   /* ── Keyboard shortcuts ── */
   const handleKeyDown = useCallback((e) => {
@@ -118,19 +129,17 @@ export default function VideoModal({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        /* ── Backdrop — click outside to dismiss ── */
         <motion.div
           className="vmodal-backdrop"
           aria-modal="true"
           role="dialog"
-          aria-label="Showreel video player"
+          aria-label="Showreel fullscreen player"
           onClick={onClose}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{    opacity: 0 }}
           transition={{ duration: 0.5, ease: EASE_CINEMATIC }}
         >
-          {/* ── Video container ── */}
           <motion.div
             className="vmodal-container"
             onClick={(e) => e.stopPropagation()}
@@ -140,7 +149,6 @@ export default function VideoModal({ isOpen, onClose }) {
             transition={{ duration: 0.55, ease: EASE_CINEMATIC }}
             style={{ willChange: 'transform, opacity, filter' }}
           >
-            {/* Close button */}
             <button
               className="vmodal-close"
               onClick={onClose}
@@ -149,15 +157,6 @@ export default function VideoModal({ isOpen, onClose }) {
               <span aria-hidden="true">✕</span>
             </button>
 
-            {/*
-              Native HTML5 video.
-              - No src attribute here — injected programmatically above
-                to prevent any external-player hijack
-              - poster shown until the user presses Play
-              - controls / playsInline keep everything inside this element
-              - crossOrigin="anonymous" tells the browser this is same-origin
-                media intent, preventing download-dialog behaviour
-            */}
             <video
               ref={videoRef}
               className="vmodal-video"
@@ -168,11 +167,9 @@ export default function VideoModal({ isOpen, onClose }) {
               crossOrigin="anonymous"
               aria-label="Showreel video"
             >
-              {/* <source> appended dynamically in useEffect above */}
               Your browser does not support HTML5 video.
             </video>
 
-            {/* Bottom meta */}
             <div className="vmodal-meta" aria-hidden="true">
               <span className="vmodal-meta-label">SHOWREEL</span>
               <span className="vmodal-meta-hint">ESC · SPACE · ←/→ · M · F</span>
