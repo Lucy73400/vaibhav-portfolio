@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
 
-const EASE_CINEMATIC = [0.16, 1, 0.3, 1];
-
-// External background artwork — new portrait
-const BG_IMAGE = 'https://i.ibb.co/0yPxpNDd/IMG-6261.png';
+const EASE_CINEMATIC  = [0.16, 1, 0.3, 1];
+const SHOWREEL_VIDEO  = 'https://dfg6l33mt2won.cloudfront.net/assasians-creed.mp4';
 
 export default function Hero({ introState, onShowreel }) {
   const visible = introState !== 'logo-reveal';
@@ -11,7 +9,7 @@ export default function Hero({ introState, onShowreel }) {
   return (
     <section id="hero" aria-label="Hero introduction">
 
-      {/* ── Dark background texture ── */}
+      {/* ── Dark base layer ── */}
       <motion.div
         className="hero-bg"
         aria-hidden="true"
@@ -20,30 +18,46 @@ export default function Hero({ introState, onShowreel }) {
         transition={{ duration: 1.8, ease: EASE_CINEMATIC }}
       />
 
-      {/* ── Background artwork — fades in first, sits behind all content ── */}
+      {/* ── Background video — fades + scales in before text reveals ── */}
       <motion.div
         className="hero-artwork"
         aria-hidden="true"
-        initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
+        initial={{ opacity: 0, scale: 1.03, filter: 'blur(8px)' }}
         animate={{
           opacity: visible ? 1 : 0,
-          scale:   visible ? 1 : 1.05,
-          filter:  visible ? 'blur(0px)' : 'blur(10px)',
+          scale:   visible ? 1 : 1.03,
+          filter:  visible ? 'blur(0px)' : 'blur(8px)',
         }}
-        transition={{ duration: 1.5, delay: 0.3, ease: EASE_CINEMATIC }}
+        transition={{ duration: 1.3, delay: 0.2, ease: EASE_CINEMATIC }}
         style={{ willChange: 'transform, opacity, filter' }}
       >
-        <img
-          src={BG_IMAGE}
-          alt=""
-          className="hero-artwork-img"
-          loading="eager"
-          draggable="false"
+        {/*
+          Native HTML5 video background.
+          autoPlay    — starts immediately, no user gesture needed on desktop
+          muted       — required for autoplay in all browsers
+          loop        — infinite cinematic loop
+          playsInline — prevents iOS from going fullscreen automatically
+          preload     — "auto" so CloudFront starts buffering on load
+          No controls, no anchor, no window.open — stays inside the page.
+        */}
+        <video
+          className="hero-artwork-video"
+          src={SHOWREEL_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          disablePictureInPicture
+          disableRemotePlayback
         />
-        <div className="hero-artwork-vignette" aria-hidden="true" />
+
+        {/* Dark overlay + all-edge vignette — keeps text readable */}
+        <div className="hero-artwork-overlay" aria-hidden="true" />
       </motion.div>
 
-      {/* ── Centered text content ── */}
+      {/* ── Centered text content — entirely unchanged ── */}
       <div className="hero-content">
 
         {/* VAIBHAV */}
@@ -96,20 +110,6 @@ export default function Hero({ introState, onShowreel }) {
           </p>
           <cite className="hero-quote-author">— Richard Williams</cite>
         </motion.blockquote>
-
-        {/* SHOWREEL button — reveals last, after the quote */}
-        <motion.button
-          className="hero-showreel-btn"
-          onClick={onShowreel}
-          aria-label="Watch showreel"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 15 }}
-          transition={{ duration: 1.4, delay: 1.7, ease: EASE_CINEMATIC }}
-          style={{ willChange: 'transform, opacity' }}
-        >
-          <span className="hero-showreel-icon" aria-hidden="true">▶</span>
-          <span className="hero-showreel-label">Showreel</span>
-        </motion.button>
 
       </div>
 
