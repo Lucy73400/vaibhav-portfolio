@@ -27,12 +27,15 @@ function getInitialIntroState() {
 }
 
 // ─── Home Page ────────────────────────────────────────────────────────────────
-function HomePage({ introState, onOpenFullscreen }) {
+function HomePage({ introState, onOpenFullscreen, videoRef }) {
   return (
     <main>
       <Hero introState={introState} />
       <Philosophy />
-      <Atmospheric onOpenFullscreen={onOpenFullscreen} />
+      <Atmospheric
+  ref={videoRef}
+  onOpenFullscreen={onOpenFullscreen}
+/>
       <Creations />
       <Portfolio />
       <Thoughts />
@@ -47,6 +50,7 @@ function App() {
   const [showreel, setShowreel]     = useState(false);
   const [reelStart, setReelStart]   = useState(0);
   const revealObserverRef = useRef(null);
+  const videoRef = useRef(null);
 
   // Opens the fullscreen modal at a specific timestamp
   const openFullscreen = useCallback((ts = 0) => {
@@ -136,10 +140,19 @@ function App() {
         <Navbar introState={introState} />
 
         {/* ── Cinematic video modal — rendered once at root level ── */}
-        <VideoModal isOpen={showreel} onClose={closeShowreel} startTime={reelStart} />
+        <VideoModal isOpen={showreel} onClose={closeShowreel} videoRef={videoRef} />
 
         <Routes>
-          <Route path="/" element={<HomePage introState={introState} onOpenFullscreen={openFullscreen} />} />
+          <Route
+  path="/"
+  element={
+    <HomePage
+      introState={introState}
+      onOpenFullscreen={openFullscreen}
+      videoRef={videoRef}
+    />
+  }
+/>
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/journal/my-last-ten-days" element={<MyLastTenDays />} />
         </Routes>
