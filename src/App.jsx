@@ -155,6 +155,7 @@ function App() {
 />
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/journal/my-last-ten-days" element={<MyLastTenDays />} />
+          <Route path="/journal/one-good-week" element={<Goodweek />} />
         </Routes>
 
         <Footer />
