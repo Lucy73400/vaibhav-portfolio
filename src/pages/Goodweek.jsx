@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // ─── Article data ─────────────────────────────────────────────────────────────
 const ARTICLE = {
   title: 'One Good Week',
-  meta: 'Personal · July 2026',
+  meta: 'Personal · 12 July 2026',
   tags: ['Personal', 'Life', 'Reflection'],
 };
 
@@ -92,10 +92,6 @@ export default function OneGoodWeek() {
             That evening I met my sir for chai. He already knew I had met his friend and he was genuinely happy. He said: Vaibhav, I am very happy that you met him. We had tea, talked a little, and went our separate ways. Some evenings do not need to be long to feel complete.
           </p>
 
-          <p className="article-para reveal-up">
-            [PHOTO 1 — here. The good-week energy of the first half: the outing, the chai, the ease of it.]
-          </p>
-
           <h2 className="article-subheading reveal-up">The Laptop Chronicles</h2>
           <p className="article-para reveal-up">
             Right after tea, I met my friend. He was visibly upset. His laptop had decided to stop cooperating — stuck in a reboot loop, all important data locked inside.
@@ -124,10 +120,6 @@ export default function OneGoodWeek() {
             There is a whiteboard at my flat. I do not entirely know why I did this, but I started mapping the film on it. Drawing timelines. Connecting the threads between universes. Getting it out of my head and onto a surface — that is a habit I have. Writing it down makes the thinking sharper. It makes everything feel less like noise and more like something I actually understand.
             What started as me explaining a movie became something else entirely. As it always does with us. Without noticing, we drifted into talking about life. Not the film anymore. Choices. Direction. What it means to keep going when you are not sure where you are headed. We are both drawn to that kind of conversation and we never have to force our way there — we just arrive.
             We spent a good amount of time together. I wished him well for Monday and left.
-          </p>
-
-          <p className="article-para reveal-up">
-            [PHOTO 2 — here. The whiteboard, the evening, that kind of energy that only certain friendships have.]
           </p>
 
           <h2 className="article-subheading reveal-up">Last Stop: Best Friend, Then Shawarma</h2>
