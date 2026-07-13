@@ -15,13 +15,13 @@ const JOURNAL_ENTRIES = [
   },
   {
     id: 1,
-    title: 'Something creative',
-    date: 'July 12, 2026',
-    time: '05 min',
-    category: 'Creative Notes',
+    title: 'One Good Week',
+    date: '12 Jul 2026',
+    category: 'Personal',
     excerpt:
-      'Something cool is coming',
-    published: false,
+      'After ten difficult days, life finally slowed down. A new consultant, temple visits, broken laptops, late-night conversations, chai with my mentor, friends, shawarma, and a reminder that moving forward matters more than moving fast.',
+    slug: 'one-good-week',
+    published: true,
   },
   {
     id: 2,
