@@ -11,7 +11,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       "I wasn't ready. Not the way you're supposed to be ready — calm, rested, confident. I came to Pune knowing what was at stake, and the closer the date got, the louder everything became.",
     slug: 'my-last-ten-days',
-    published: true,
+    published: false,
   },
   {
     id: 1,
@@ -21,7 +21,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       'After ten difficult days, life finally slowed down. A new consultant, temple visits, broken laptops, late-night conversations, chai with my mentor, friends, shawarma, and a reminder that moving forward matters more than moving fast.',
     slug: 'one-good-week',
-    published: true,
+    published: false,
   },
   {
     id: 2,

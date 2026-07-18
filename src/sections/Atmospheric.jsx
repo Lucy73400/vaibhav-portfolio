@@ -78,7 +78,7 @@ const Atmospheric = forwardRef(function Atmospheric({ onOpenFullscreen }, videoR
                  xmlns="http://www.w3.org/2000/svg">
               <path d="M1 4V1H4M7 1H10V4M10 7V10H7M4 10H1V7"
                     stroke="currentColor" strokeWidth="1.2"
-                    strokeLinecap="round" strokeLinejoin="round"/>
+                    strokeLinecap="square" strokeLinejoin="miter"/>
             </svg>
           </span>
           <span>Full Screen</span>
