@@ -70,7 +70,7 @@ export default function Collaborate() {
           <div className="collab-bottom-links">
             <a href="#hero">INDEX_03</a>
             <a href="#portfolio">PORTFOLIO_GRID</a>
-            <Link to="/journal">JOURNAL_LOGS</Link>
+            <Link to="/blog">blog_LOGS</Link>
           </div>
         </div>
       </section>
