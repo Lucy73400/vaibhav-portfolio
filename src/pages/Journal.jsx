@@ -163,9 +163,9 @@ export default function JournalPage() {
         <div className="hero-bg" aria-hidden="true"></div>
         <div className="journal-hero-content" ref={heroRef}>
           <span className="journal-hero-label">THE ARCHIVE</span>
-          <h1 className="journal-hero-title">IN BETWEEN FRAMES</h1>
+          <h1 className="journal-hero-title">REFLECTIONS</h1>
           <p className="journal-hero-sub">
-            Thoughts, lessons, and observations from the process of becoming.
+            Thoughts on creating and becoming.
           </p>
         </div>
       </section>
