@@ -764,7 +764,7 @@ section {
 .creations-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2.2rem;
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
@@ -772,21 +772,20 @@ section {
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid var(--accent-card-border);
   border-radius: 4px;
-  padding: 3.5rem 2.2rem;
+  padding: 1.8rem 1.5rem;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 340px;
-  transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+  min-height: 200px;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .interactive-card:hover {
   /* Gold card border on hover — discovered, not announced */
   border-color: var(--gold-hairline);
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 40px var(--gold-subtle);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .card-header {
@@ -795,30 +794,30 @@ section {
 
 .card-num {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.52rem;
   letter-spacing: 0.15em;
   /* Gold card index — a quiet numeric accent */
   color: var(--gold-dim);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   display: block;
 }
 
 .card-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
   font-weight: 700;
   color: var(--text-light);
 }
 
 .card-body {
   z-index: 2;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .card-desc {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  line-height: 2;
+  font-size: 0.52rem;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.42);
   letter-spacing: 0.05em;
 }
@@ -833,7 +832,7 @@ section {
 }
 
 .interactive-card:hover .card-bg-gradient {
-  opacity: 0.12;
+  opacity: 0.08;
 }
 
 /* Dynamic Brand Gradients matching the portfolio specs */
@@ -847,18 +846,18 @@ section {
 @media (max-width: 991px) {
   .creations-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.8rem;
+    gap: 1.2rem;
   }
 }
 
 @media (max-width: 576px) {
   .creations-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
   }
   .interactive-card {
-    min-height: 280px;
-    padding: 2.5rem 1.8rem;
+    min-height: 180px;
+    padding: 1.5rem 1.2rem;
   }
 }
 
@@ -2113,11 +2112,15 @@ select:focus {
   position: relative;
   width: 100%;
   max-width: 1160px;
+  height: 100%;
+  max-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1.4rem;
   cursor: none;
+  box-sizing: border-box;
 }
 
 /* ── Close button — top right corner ── */
@@ -2153,28 +2156,41 @@ select:focus {
   color: var(--gold);
 }
 
-/* ── Native video element ── */
-.vmodal-video {
+/* ── Video transplant slot container ── */
+.vmodal-video-slot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+/* ── Native video element and transplanted elements ── */
+.vmodal-video,
+.vmodal-video-transplanted {
   display: block;
   width: 100%;
-  /* Preserve 16:9 without stretching */
-  aspect-ratio: 16 / 9;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  /* Preserve aspect ratio without stretching, allow letterboxing */
+  object-fit: contain;
   background: #000;
   border-radius: 2px;
   /* Gold hairline frame — barely visible, adds cinematic depth */
   outline: 1px solid var(--gold-hairline);
   /* GPU-friendly */
   will-change: opacity;
+  accent-color: var(--gold);
 }
 
 /* Browser default controls — tint handled by accent-color */
-.vmodal-video::-webkit-media-controls-panel {
+.vmodal-video::-webkit-media-controls-panel,
+.vmodal-video-transplanted::-webkit-media-controls-panel {
   background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
-}
-
-/* Chromium accent-color for range inputs inside video controls */
-.vmodal-video {
-  accent-color: var(--gold);
 }
 
 /* ── Bottom meta row ── */
@@ -2210,6 +2226,7 @@ select:focus {
 
   .vmodal-container {
     max-width: 100%;
+    max-height: calc(100vh - 100px);
     gap: 1rem;
   }
 
@@ -2221,3 +2238,4 @@ select:focus {
     display: none;
   }
 }
+

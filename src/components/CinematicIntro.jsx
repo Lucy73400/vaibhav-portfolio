@@ -82,6 +82,7 @@ export default function CinematicIntro({ introState }) {
               ENTER THE WORLD OF MOTION
             </motion.p>
           </motion.div>
+          <style>{mediaQueries}</style>
         </motion.div>
       )}
     </AnimatePresence>

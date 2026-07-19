@@ -16,17 +16,10 @@ const LINES = [
   'I TELL STORIES.',
 ];
 
-// 150ms stagger between every line — uniform rhythm
-const STAGGER = 0.15;
-
 // ── Single reusable line component ───────────────────────────────────────────
-function PhiLine({ text, index }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-5% 0px' });
-
+function PhiLine({ text, index, inView }) {
   return (
     <motion.p
-      ref={ref}
       className="phi-line"
       // Reveal: opacity 0→1, blur 10px→0, y 30px→0
       initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
@@ -36,8 +29,8 @@ function PhiLine({ text, index }) {
           : { opacity: 0, y: 30, filter: 'blur(10px)' }
       }
       transition={{
-        duration: 0.55, // Slightly faster (was 0.85)
-        delay: index * STAGGER,
+        duration: 0.45, // Snappier duration (approx 0.3 - 0.5 seconds)
+        delay: index * 0.07, // Snappier stagger delay
         ease: EASE,
       }}
       // Hover: slight brightness + scale 1.015
@@ -61,8 +54,13 @@ function PhiLine({ text, index }) {
 
 // ── Section ───────────────────────────────────────────────────────────────────
 export default function Philosophy() {
+  const sectionRef = useRef(null);
+  // Trigger when 15% of the section is visible
+  const inView = useInView(sectionRef, { once: true, amount: 0.15 });
+
   return (
     <section
+      ref={sectionRef}
       id="philosophy"
       className="philosophy-section"
       aria-label="Creative identity"
@@ -74,6 +72,7 @@ export default function Philosophy() {
               key={text}
               text={text}
               index={i}
+              inView={inView}
             />
           ))}
         </div>

@@ -36,11 +36,14 @@ export default function VideoModal({ isOpen, onClose, videoRef }) {
              set muted=true, loop=true, controls=false, play() (resume inline)
   ──────────────────────────────────────────────────────────────────────── */
   useEffect(() => {
-    const video   = videoRef?.current;
-    const slot    = slotRef.current;
-    const origin  = document.getElementById('vis-video-slot');
+    const videoRefEl = videoRef?.current;
+    const slot       = slotRef.current;
+    const origin     = document.getElementById('vis-video-slot');
 
-    if (!video || !origin) return;
+    if (!videoRefEl || !origin) return;
+
+    const video = document.querySelector('video');
+    if (!video) return;
 
     if (isOpen && slot) {
       // Remember whether it was playing (it always should be, but be safe)
@@ -90,7 +93,8 @@ export default function VideoModal({ isOpen, onClose, videoRef }) {
   /* ── Keyboard shortcuts ── */
   const handleKeyDown = useCallback((e) => {
     if (!isOpen) return;
-    const video = videoRef?.current;
+    const video = document.querySelector('video');
+    if (!video) return;
 
     switch (e.key) {
       case 'Escape':
@@ -99,22 +103,26 @@ export default function VideoModal({ isOpen, onClose, videoRef }) {
       case ' ':
       case 'Spacebar':
         e.preventDefault();
-        if (video) video.paused ? video.play() : video.pause();
+        if (video.paused) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
         break;
       case 'ArrowRight':
-        if (video) video.currentTime = Math.min(video.duration || 0, video.currentTime + 5);
+        video.currentTime = Math.min(video.duration || 0, video.currentTime + 5);
         break;
       case 'ArrowLeft':
-        if (video) video.currentTime = Math.max(0, video.currentTime - 5);
+        video.currentTime = Math.max(0, video.currentTime - 5);
         break;
       case 'm':
       case 'M':
-        if (video) video.muted = !video.muted;
+        video.muted = !video.muted;
         break;
       default:
         break;
     }
-  }, [isOpen, onClose, videoRef]);
+  }, [isOpen, onClose]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);

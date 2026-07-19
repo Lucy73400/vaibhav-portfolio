@@ -21,7 +21,7 @@ function getInitialIntroState() {
   try {
     const saved = sessionStorage.getItem('introState');
     if (saved === 'complete') return 'complete';
-  } catch (_) { /* sessionStorage blocked */ }
+  } catch { /* sessionStorage blocked */ }
   return 'logo-reveal';
 }
 
@@ -47,19 +47,16 @@ function HomePage({ introState, onOpenFullscreen, videoRef }) {
 function App() {
   const [introState, setIntroState] = useState(getInitialIntroState);
   const [showreel, setShowreel]     = useState(false);
-  const [reelStart, setReelStart]   = useState(0);
   const revealObserverRef = useRef(null);
   const videoRef = useRef(null);
 
-  // Opens the fullscreen modal at a specific timestamp
-  const openFullscreen = useCallback((ts = 0) => {
-    setReelStart(ts);
+  // Opens the fullscreen modal
+  const openFullscreen = useCallback(() => {
     setShowreel(true);
   }, []);
 
   const closeShowreel = useCallback(() => {
     setShowreel(false);
-    setReelStart(0);
   }, []);
 
   // Drive the intro sequence timeline — only runs when intro hasn't completed yet
@@ -78,7 +75,11 @@ function App() {
     const tComplete = setTimeout(() => {
       setIntroState('complete');
       document.body.classList.add('loaded');
-      try { sessionStorage.setItem('introState', 'complete'); } catch (_) {}
+      try {
+        sessionStorage.setItem('introState', 'complete');
+      } catch {
+        /* ignore storage failure */
+      }
     }, 4600);
 
     return () => {
