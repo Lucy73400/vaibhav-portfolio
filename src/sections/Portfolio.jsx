@@ -42,6 +42,14 @@ const PROJECT_DATA = [
     category: "Soundscapes & Acoustic Architecture",
     desc: "Mapping sound structures and voice patterns to cinematic structures, showing how audio shapes the perception of architectural scale.",
     class: "c6"
+  },
+  {
+    num: "VII",
+    title: "Assassin's Creed",
+    category: "Cinematic Animation & Storytelling",
+    desc: "A cinematic title sequence reimagined — frame-by-frame animation with motion graphics, recreating the iconic hidden blade reveal in my own visual language.",
+    class: "c7",
+    href: "/work/assassins-creed"
   }
 ];
 
@@ -86,7 +94,7 @@ export default function Portfolio() {
               <h3 className="selected-title">{proj.title}</h3>
               <span className="selected-category">{proj.category}</span>
               <p className="selected-desc">{proj.desc}</p>
-              <a href="#" className="selected-link">Explore Chapter <span>→</span></a>
+              <a href={proj.href || "#"} className="selected-link">Explore Chapter <span>→</span></a>
             </div>
           </div>
         ))}

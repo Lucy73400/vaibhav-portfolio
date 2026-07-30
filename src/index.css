@@ -1016,6 +1016,7 @@ section {
 .selected-img.c4 { background: linear-gradient(145deg, #c0392b, #8b0808); }
 .selected-img.c5 { background: linear-gradient(145deg, #e8dcc8, #c4b49a); }
 .selected-img.c6 { background: linear-gradient(145deg, #e0d4b8, #c8bc98); }
+.selected-img.c7 { background: linear-gradient(145deg, #b89a6a, #2a2214); }
 
 .portfolio-view-all {
   text-align: right;
