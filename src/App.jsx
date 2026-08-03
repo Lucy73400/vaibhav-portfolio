@@ -14,6 +14,7 @@ import Thoughts from './sections/Thoughts';
 import Collaborate from './sections/Collaborate';
 import Footer from './components/Footer';
 import JournalPage from './pages/Journal';
+import July from './pages/July';
 
 // ─── Intro state is persisted to sessionStorage so navigating between
 //     routes never replays the intro. It only runs once per browser tab.
