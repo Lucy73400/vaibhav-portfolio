@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 const JOURNAL_ENTRIES = [
   {
     id: 0,
-    title: 'My Last Ten Days',
-    date: '8 Jul 2026',
+    title: 'July',
+    date: '4 Aug 2026',
     category: 'Personal',
     excerpt:
-      "I wasn't ready. Not the way you're supposed to be ready — calm, rested, confident. I came to Pune knowing what was at stake, and the closer the date got, the louder everything became.",
-    slug: 'my-last-ten-days',
+      "I thought I had more time. More time to prepare, more time to become the version of myself that could handle everything. But some days arrive before you’re ready, and all you can do is show up with shaking hands and a mind that won’t stay quiet.",
+    slug: 'July',
     published: false,
   },
   {
