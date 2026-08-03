@@ -11,7 +11,7 @@ const JOURNAL_ENTRIES = [
     excerpt:
       "I thought I had more time. More time to prepare, more time to become the version of myself that could handle everything. But some days arrive before you’re ready, and all you can do is show up with shaking hands and a mind that won’t stay quiet.",
     slug: 'July',
-    published: false,
+    published: True,
   },
   {
     id: 1,
