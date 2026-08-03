@@ -8,7 +8,7 @@ const ARTICLE = {
   tags: ['Personal', 'Life', 'Reflection', 'Survival'],
 };
 
-// ─── Scroll reveal helper ─────────────────────────────────────────────────────
+// ─── Scroll reveal helper ────────────────────────────────────────────────     
 function useRevealObserver(containerRef) {
   useEffect(() => {
     if (!containerRef.current) return;
@@ -31,7 +31,7 @@ function useRevealObserver(containerRef) {
 
 // ─── Article Page ─────────────────────────────────────────────────────────────
 export default function JulyWasARoomWithoutWindows() {
-  const heroRef    = useRef(null);
+  const heroRef = useRef(null);
   const articleRef = useRef(null);
 
   // Scroll to top on mount
