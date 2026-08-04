@@ -3,53 +3,53 @@ import { useEffect, useRef } from 'react';
 const PROJECT_DATA = [
   {
     num: "I",
+    title: "Assassin's Creed",
+    category: "Cinematic Animation & Storytelling",
+    desc: "A cinematic title sequence reimagined — frame-by-frame animation with motion graphics, recreating the iconic hidden blade reveal in my own visual language.",
+    class: "c7",
+    href: "/work/assassins-creed"
+  },
+  {
+    num: "II",
     title: "Modern Interiors",
     category: "3D Animation & Space Kinetics",
     desc: "An editorial look into internal environments, exploring structural geometry, shadows, and the behavior of light under artificial kinetics.",
     class: "c1"
   },
   {
-    num: "II",
+    num: "III",
     title: "Seasonal Lookbook",
     category: "Cinematic Films & Photography",
     desc: "A deep textural exploration of natural lighting and color spaces, capturing editorial movement and outdoor atmospheric sequences.",
     class: "c2"
   },
   {
-    num: "III",
+    num: "IV",
     title: "Branding Campaign",
     category: "Illustration & Graphic Design",
     desc: "Translating key design requirements into vector arrays and brand narratives. A case study in visual cohesion and minimalist editorial styling.",
     class: "c3"
   },
   {
-    num: "IV",
+    num: "V",
     title: "Editorial Portraits",
     category: "Video Editing & Textural Color",
     desc: "A frame-by-frame narrative matching speed, lighting variables, and acoustic loops to showcase character nuances.",
     class: "c4"
   },
   {
-    num: "V",
+    num: "VI",
     title: "Design Objects",
     category: "Storytelling & Graphic Concepts",
     desc: "Isolating objects within pure dark frames. Exploring composition weight and tactile material rendering.",
     class: "c5"
   },
   {
-    num: "VI",
+    num: "VII",
     title: "Contemporary Homes",
     category: "Soundscapes & Acoustic Architecture",
     desc: "Mapping sound structures and voice patterns to cinematic structures, showing how audio shapes the perception of architectural scale.",
     class: "c6"
-  },
-  {
-    num: "VII",
-    title: "Assassin's Creed",
-    category: "Cinematic Animation & Storytelling",
-    desc: "A cinematic title sequence reimagined — frame-by-frame animation with motion graphics, recreating the iconic hidden blade reveal in my own visual language.",
-    class: "c7",
-    href: "/work/assassins-creed"
   }
 ];
 
