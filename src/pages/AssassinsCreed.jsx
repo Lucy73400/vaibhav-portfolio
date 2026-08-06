@@ -110,7 +110,7 @@ export default function AssassinsCreed() {
           {/* Intro */}
           <p className="ac-hero-intro">
             A motion design and storytelling exploration inspired by the Assassin's
-            Creed universe. Built frame by frame — from concept to final sequence —
+            Creed universe. Built frame by frame from concept to final sequence
             this project pursues one question: what does it feel like to step into
             the Animus for the very first time?
           </p>
@@ -166,7 +166,7 @@ export default function AssassinsCreed() {
         </div>
 
         <p className="ac-video-note reveal-up">
-          An early cut of the reveal — the mark emerging from fog and static,
+          An early cut of the reveal the mark emerging from fog and static,
           built to hint at what's coming without giving it all away.
         </p>
       </section>
@@ -185,7 +185,7 @@ export default function AssassinsCreed() {
             <h3 className="ac-col-heading">Research</h3>
             <p className="ac-col-body">
               Before animating a single frame, I went back to the Assassin's Creed
-              logo itself — studying its different versions across the series, and
+              logo itself studying its different versions across the series, and
               the different ways it's been brought to life on screen.
             </p>
           </div>
@@ -211,14 +211,14 @@ export default function AssassinsCreed() {
 
         <p className="ac-body-wide reveal-up">
           It starts with a loading screen that pulls the viewer into the expansive
-          world of Assassin's Creed — an endless space, wrapped in dark fog, with
+          world of Assassin's Creed an endless space, wrapped in dark fog, with
           cinematic score building underneath to set an epic tone.
         </p>
 
         <p className="ac-body-wide reveal-up">
           As the character steps deeper into that space, the anticipation keeps
           climbing toward a title card: <em>Coming Soon.</em> Then, out of the
-          dust, the mark itself slashes onto the screen — landing with one powerful
+          dust, the mark itself slashes onto the screen landing with one powerful
           sound effect.
         </p>
 
@@ -317,7 +317,7 @@ export default function AssassinsCreed() {
         </div>
 
         <p className="ac-video-note reveal-up">
-          The complete sequence — from the drifting HUD fog of the loading screen
+          The complete sequence from the drifting HUD fog of the loading screen
           through to the dust-streaked slash and the finished Assassin's Creed lockup.
         </p>
       </section>
@@ -332,7 +332,7 @@ export default function AssassinsCreed() {
         </div>
 
         <p className="ac-body-wide reveal-up">
-          The goal was to create a trailer that doesn't just showcase the animation —
+          The goal was to create a trailer that doesn't just showcase the animation
           it sparks curiosity and excitement for the Assassin's Creed universe.
         </p>
 
