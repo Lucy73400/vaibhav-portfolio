@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const PROJECT_DATA = [
   {
@@ -94,7 +95,11 @@ export default function Portfolio() {
               <h3 className="selected-title">{proj.title}</h3>
               <span className="selected-category">{proj.category}</span>
               <p className="selected-desc">{proj.desc}</p>
-              <a href={proj.href || "#"} className="selected-link">Explore Chapter <span>→</span></a>
+              {proj.href ? (
+                <Link to={proj.href} className="selected-link">Explore Chapter <span>→</span></Link>
+              ) : (
+                <a href="#" className="selected-link">Explore Chapter <span>→</span></a>
+              )}
             </div>
           </div>
         ))}
