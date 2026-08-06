@@ -3094,31 +3094,49 @@ select:focus {
 /* ═══════════════════════════════════════════════════════════════════════════
    ASSASSIN'S CREED PROJECT PAGE  (/work/assassins-creed)
    All classes are prefixed .ac- to guarantee zero collision with site styles.
+
+   COLOUR SYSTEM — scoped entirely to this page
+   ─────────────────────────────────────────────
+   Predominant: black (#000) and white (#fff)
+   Accent: deep Assassin's Creed crimson — atmospheric, never saturated
+
+     --ac-red:          #8B1A1A   full crimson — used alone sparingly
+     --ac-red-dim:      rgba(139,26,26,0.55)  labels, process numerals
+     --ac-red-glow:     rgba(139,26,26,0.12)  hero ambient, video hover
+     --ac-red-hairline: rgba(139,26,26,0.28)  dividers, borders, outlines
+     --ac-red-deep:     rgba(139,26,26,0.06)  section background tint
 ═══════════════════════════════════════════════════════════════════════════ */
 
 .ac-page {
+  /* Crimson token definitions — isolated to this page subtree */
+  --ac-red:          #8B1A1A;
+  --ac-red-dim:      rgba(139, 26, 26, 0.55);
+  --ac-red-glow:     rgba(139, 26, 26, 0.12);
+  --ac-red-hairline: rgba(139, 26, 26, 0.28);
+  --ac-red-deep:     rgba(139, 26, 26, 0.06);
+
   background: var(--bg-dark);
   color: var(--text-light);
   overflow-x: hidden;
 }
 
-/* ── Shared eyebrow label ── */
+/* ── Shared eyebrow label — crimson accent ── */
 .ac-eyebrow {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.52rem;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--gold-dim);
+  color: var(--ac-red-dim);
   margin-bottom: 1.2rem;
 }
 
-/* ── Thin gold rule ── */
+/* ── Thin crimson rule ── */
 .ac-rule {
   width: 48px;
   height: 1.5px;
-  background: var(--gold);
-  opacity: 0.45;
+  background: var(--ac-red);
+  opacity: 0.55;
   margin: 2.4rem 0;
 }
 
@@ -3135,12 +3153,16 @@ select:focus {
   background: var(--bg-dark);
 }
 
-/* Ambient radial glow — very faint gold behind title */
+/* Ambient radial glow — deep crimson atmosphere behind title */
 .ac-hero-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 55% at 50% 60%,
-    rgba(255, 201, 60, 0.04) 0%, transparent 65%);
+  /* Two-layer glow: large diffuse base + tighter hot centre */
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 70%,
+      var(--ac-red-glow) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 65%,
+      rgba(139, 26, 26, 0.07) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -3175,7 +3197,7 @@ select:focus {
   margin-bottom: 3.5rem;
   transition: color 0.3s;
 }
-.ac-back-link:hover { color: var(--gold); }
+.ac-back-link:hover { color: var(--ac-red); }
 
 /* Main title */
 .ac-hero-title {
@@ -3259,7 +3281,7 @@ select:focus {
 
 .ac-section--dark {
   background: #080808;
-  border-top: 1px solid var(--gold-hairline);
+  border-top: 1px solid var(--ac-red-hairline);
 }
 
 .ac-section-header {
@@ -3328,9 +3350,11 @@ select:focus {
   transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Video wrapper hover — crimson ambient lift */
 @media (hover: hover) {
   .ac-video-wrap:hover {
     filter: brightness(1.04);
+    box-shadow: 0 0 60px var(--ac-red-glow);
   }
 }
 
@@ -3384,7 +3408,7 @@ select:focus {
 /* Trailer section header centering */
 .ac-trailer-section {
   padding-top: 14vh;
-  border-top: 1px solid var(--gold-hairline);
+  border-top: 1px solid var(--ac-red-hairline);
 }
 
 .ac-trailer-header {
@@ -3409,8 +3433,10 @@ select:focus {
 .ac-trailer-wrap {
   margin: 0;
   border-radius: 0;
-  /* Subtle gold hairline frame */
-  outline: 1px solid var(--gold-hairline);
+  /* Crimson hairline frame — atmospheric, not decorative */
+  outline: 1px solid var(--ac-red-hairline);
+  /* Ambient red glow behind the trailer — very soft */
+  box-shadow: 0 0 80px var(--ac-red-glow);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -3467,7 +3493,7 @@ select:focus {
   font-family: var(--font-mono);
   font-size: 0.5rem;
   letter-spacing: 0.25em;
-  color: var(--gold-dim);
+  color: var(--ac-red-dim);
   margin-bottom: 0.9rem;
 }
 
@@ -3498,7 +3524,7 @@ select:focus {
 .ac-process-steps {
   display: flex;
   flex-direction: column;
-  border-left: 1px solid var(--gold-hairline);
+  border-left: 1px solid var(--ac-red-hairline);
   padding-left: 3rem;
   gap: 0;
 }
@@ -3519,7 +3545,7 @@ select:focus {
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 0.85rem;
-  color: var(--gold-dim);
+  color: var(--ac-red-dim);
   padding-top: 0.2rem;
 }
 
@@ -3552,7 +3578,7 @@ select:focus {
   font-style: italic;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.7);
-  border-left: 2px solid var(--gold-hairline);
+  border-left: 2px solid var(--ac-red-hairline);
   padding-left: 2rem;
   max-width: 720px;
   margin: 4rem 0;
@@ -3682,7 +3708,7 @@ select:focus {
 }
 
 .ac-back-bottom:hover {
-  color: var(--gold);
+  color: var(--ac-red);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
